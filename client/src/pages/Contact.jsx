@@ -6,7 +6,33 @@ import { FaPaperPlane } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 import { LuNewspaper } from "react-icons/lu";
+import { useState } from "react";
+
 const Contact = () => {
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  function handleChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setContactData({ ...contactData, [name]: value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // validation on contactData
+
+    // payload
+
+    const payload = { ...contactData };
+    console.log(payload);
+  }
+
   return (
     <>
       <main className="px-50 bg-(--color-base-100) space-y-5 pb-10">
@@ -31,53 +57,78 @@ const Contact = () => {
           <div className="space-y-5">
             <h2 className="text-3xl font-semibold">Send Us a Message</h2>
             <p>Fill out the form below and we'll get back to you soon.</p>
-            <div className="flex gap-3">
-              <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[50%]">
-                <FiUser className="text-(--color-secondary)" />
+            <form
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+              className="space-y-5"
+            >
+              <div className="flex gap-3">
+                <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[50%]">
+                  <FiUser className="text-(--color-secondary)" />
+                  <input
+                    type="text"
+                    name="name"
+                    id="contactName"
+                    placeholder="Enter your name"
+                    className="w-full outline-none "
+                    value={contactData.name}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  />
+                </div>
+                <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[50%]">
+                  <MdOutlineMail className="text-(--color-secondary)" />
+                  <input
+                    type="text"
+                    name="email"
+                    id="contactEmail"
+                    placeholder="Enter your Email"
+                    className="w-full outline-none "
+                    value={contactData.email}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[100%]">
+                <LuNewspaper className="text-(--color-secondary)" />
                 <input
                   type="text"
-                  name="name"
-                  id="contactName"
-                  placeholder="Enter your name"
+                  name="subject"
+                  id="contactSubject"
+                  placeholder="Enter your subject"
                   className="w-full outline-none "
+                  value={contactData.subject}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
                 />
               </div>
-              <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[50%]">
-                <MdOutlineMail className="text-(--color-secondary)" />
-                <input
+              <div className="border border-(--color-secondary) flex gap-2 items-top p-2 rounded-md w-[100%]">
+                <LuPencil className="text-(--color-secondary)" />
+                <textarea
                   type="text"
-                  name="name"
-                  id="contactName"
-                  placeholder="Enter your Email"
+                  rows="10"
+                  name="message"
+                  id="contactMessage"
+                  placeholder="Enter your Message"
                   className="w-full outline-none "
+                  value={contactData.message}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
                 />
               </div>
-            </div>
-            <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[100%]">
-              <LuNewspaper className="text-(--color-secondary)" />
-              <input
-                type="text"
-                name="name"
-                id="contactName"
-                placeholder="Enter your subject"
-                className="w-full outline-none "
-              />
-            </div>
-            <div className="border border-(--color-secondary) flex gap-2 items-top p-2 rounded-md w-[100%]">
-              <LuPencil className="text-(--color-secondary)" />
-              <textarea
-                type="text"
-                rows="10"
-                name="name"
-                id="contactName"
-                placeholder="Enter your Message"
-                className="w-full outline-none "
-              />
-            </div>
-
-            <button className="rounded bg-(--color-primary) text-white text-lg font-semibold py-2 px-3 flex gap-2 items-center active:scale-95">
-              Send Message <FaPaperPlane />
-            </button>
+              <button
+                type="submit"
+                className="rounded bg-(--color-primary) text-white text-lg font-semibold py-2 px-3 flex gap-2 items-center active:scale-95"
+              >
+                Send Message <FaPaperPlane />
+              </button>
+            </form>
           </div>
 
           <div className="bg-(--color-base-100) p-10 space-y-3 rounded">

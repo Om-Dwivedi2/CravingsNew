@@ -18,6 +18,8 @@ const Register = () => {
     fullName: "",
     email: "",
     phone: "",
+    gender: "",
+    dob: "",
     password: "",
     confirmPassword: "",
   });
@@ -25,7 +27,8 @@ const Register = () => {
   function handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
-
+    console.log(e);
+    
     setFormData({ ...formData, [name]: value });
   }
 
@@ -39,6 +42,8 @@ const Register = () => {
       fullName: formData.fullName,
       email: formData.email,
       phone: formData.phone,
+      gender: formData.gender,
+      dob: formData.dob,
       password: formData.password,
       confirmPassword: formData.confirmPassword,
     };
@@ -54,6 +59,8 @@ const Register = () => {
       fullName: "",
       email: "",
       phone: "",
+      gender: "",
+      dob: "",
       password: "",
       confirmPassword: "",
     });
@@ -211,6 +218,35 @@ const Register = () => {
               className="border border-(--color-base-300) rounded px-2 py-1 text-sm focus:outline-(--color-primary) "
               placeholder="Enter your phone number"
               value={formData.phone}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+
+            <select
+              name="gender"
+              id="gender"
+              required
+              className="border border-(--color-base-300) rounded px-2 py-1 text-sm focus:outline-(--color-primary)"
+              value={formData.gender}
+              defaultValue=""
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+
+            <input
+              type="date"
+              name="dob"
+              id="dob"
+              required
+              className="border border-(--color-base-300) rounded px-2 py-1 text-sm focus:outline-(--color-primary)"
+              value={formData.dob}
               onChange={(e) => {
                 handleChange(e);
               }}
