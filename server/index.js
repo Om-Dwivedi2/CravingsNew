@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./src/config/connectDB.config.js";
 import authRouter from "./src/router/auth.router.js";
+import cors from "cors"
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cors())
 
 app.use("/auth", authRouter);
 

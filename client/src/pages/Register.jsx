@@ -4,6 +4,7 @@ import { BsShop } from "react-icons/bs";
 import { GiScooter } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,30 +28,39 @@ const Register = () => {
   function handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(e);
-    
+
     setFormData({ ...formData, [name]: value });
   }
 
-  function submitForm(e) {
-    e.preventDefault();
+  async function submitForm(e) {
+    try {
+      e.preventDefault();
 
-    // Validation here
+      // Validation here
 
-    const payload = {
-      role: formData.role,
-      fullName: formData.fullName,
-      email: formData.email,
-      phone: formData.phone,
-      gender: formData.gender,
-      dob: formData.dob,
-      password: formData.password,
-      confirmPassword: formData.confirmPassword,
-    };
+      const payload = {
+        // role: formData.role,
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        gender: formData.gender,
+        dob: formData.dob,
+        password: formData.password,
+        // confirmPassword: formData.confirmPassword,
+      };
 
-    console.log(payload);
+      const res = await axios.post(
+        "http://localhost:4500/auth/register",
+        payload,
+      );
 
-    clearForm();
+      console.log(payload);
+      console.log(res);
+
+      clearForm();
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   function clearForm() {
@@ -100,9 +110,6 @@ const Register = () => {
                   restaurant: false,
                   customer: true,
                   rider: false,
-                });
-                onChange((e) => {
-                  handleChange(e);
                 });
               }}
             >
@@ -229,7 +236,6 @@ const Register = () => {
               required
               className="border border-(--color-base-300) rounded px-2 py-1 text-sm focus:outline-(--color-primary)"
               value={formData.gender}
-              defaultValue=""
               onChange={(e) => {
                 handleChange(e);
               }}

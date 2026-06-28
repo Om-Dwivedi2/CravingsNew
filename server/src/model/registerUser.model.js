@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const registerSchema = new mongoose.Schema({
-  role: {
-    required: true,
-    type: String,
-  },
-  fullname: {
+  // role: {
+  //   required: true,
+  //   type: String,
+  // },
+  fullName: {
     required: true,
     type: String,
   },
@@ -26,5 +26,4 @@ const registerSchema = new mongoose.Schema({
   },
 });
 
-
-export const userModel = mongoose.model("users", registerSchema)
+export const User = mongoose.model("om", registerSchema);
