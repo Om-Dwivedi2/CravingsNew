@@ -5,6 +5,7 @@ import { GiScooter } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../config/api.config.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -46,13 +47,9 @@ const Register = () => {
         gender: formData.gender,
         dob: formData.dob,
         password: formData.password,
-        // confirmPassword: formData.confirmPassword,
       };
 
-      const res = await axios.post(
-        "http://localhost:4500/auth/register",
-        payload,
-      );
+      const res = await api.post("/auth/register", payload);
 
       console.log(payload);
       console.log(res);

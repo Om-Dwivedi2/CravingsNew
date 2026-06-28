@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
-const registerSchema = new mongoose.Schema({
-  // role: {
-  //   required: true,
-  //   type: String,
-  // },
+const contactSchema = new mongoose.Schema({
   fullName: {
     required: true,
     type: String,
@@ -20,10 +16,17 @@ const registerSchema = new mongoose.Schema({
     type: Number,
   },
 
-  password: {
+  subject: {
+    required: true,
+    type: String,
+  },
+
+  message: {
     required: true,
     type: String,
   },
 });
 
-export const User = mongoose.model("om", registerSchema);
+const contact = mongoose.model("contact", contactSchema);
+
+export default contact;

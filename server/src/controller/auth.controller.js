@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { User } from "../model/registerUser.model.js";
+import { User } from "../model/User.model.js";
 import bcrypt from "bcrypt";
 
 export const RegisterUser = async (req, res, next) => {
@@ -39,6 +39,20 @@ export const RegisterUser = async (req, res, next) => {
       .json({ message: "User Created Successfully", data: newUser });
   } catch (error) {
     console.log(error.message);
-    next();
+    next(error);
   }
+};
+
+export const LoginUser = async(req, res, next)=>{
+try {
+  
+} catch (error) {
+  console.log(error.message);
+  
+  
+}
+};
+
+export const LogoutUser = async (req,res,next)=>{
+
 };
