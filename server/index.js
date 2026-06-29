@@ -4,6 +4,7 @@ import { connectDB } from "./src/config/connectDB.config.js";
 import authRouter from "./src/router/auth.route.js";
 import cors from "cors";
 import morgan from "morgan";
+import publicRouter from "./src/router/public.route.js";
 
 dotenv.config();
 
@@ -16,12 +17,14 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/auth", authRouter);
-
+app.use("/public", publicRouter)
 // Default Error handler
 
 app.use((err, req, res, next) => {
   const errMessage = err.message || "Internal Server Error";
   const errStatusCode = err.statusCode || 500;
+
+  console.log(errMessage);
 
   res.status(errStatusCode).json({ message: errMessage });
 });

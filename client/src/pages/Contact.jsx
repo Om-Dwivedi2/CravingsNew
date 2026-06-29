@@ -6,12 +6,15 @@ import { FaPaperPlane } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 import { LuNewspaper } from "react-icons/lu";
+import { FaPhone } from "react-icons/fa6";
 import { useState } from "react";
+import api from "../config/api.config";
 
 const Contact = () => {
   const [contactData, setContactData] = useState({
-    name: "",
+    fullName: "",
     email: "",
+    phone: "",
     subject: "",
     message: "",
   });
@@ -23,14 +26,35 @@ const Contact = () => {
     setContactData({ ...contactData, [name]: value });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    // validation on contactData
+  function clearForm() {
+    setContactData({
+      fullName: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    });
+  }
 
-    // payload
+  async function handleSubmit(e) {
+    try {
+      e.preventDefault();
+      // validation on contactData
 
-    const payload = { ...contactData };
-    console.log(payload);
+      // payload
+      const payload = {
+        ...contactData,
+      };
+
+      const response = await api.post("/public/contact", payload);
+      console.log(response);
+
+      clearForm();
+      
+    } catch (error) {
+      const ErrMessage = error?.response?.data?.message || error.message;
+      console.log(ErrMessage);
+    }
   }
 
   return (
@@ -68,11 +92,12 @@ const Contact = () => {
                   <FiUser className="text-(--color-secondary)" />
                   <input
                     type="text"
-                    name="name"
-                    id="contactName"
-                    placeholder="Enter your name"
+                    name="fullName"
+                    id="contactFullName"
+                    placeholder="Enter your full name"
                     className="w-full outline-none "
-                    value={contactData.name}
+                    required
+                    value={contactData.fullName}
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -81,11 +106,12 @@ const Contact = () => {
                 <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[50%]">
                   <MdOutlineMail className="text-(--color-secondary)" />
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="contactEmail"
                     placeholder="Enter your Email"
                     className="w-full outline-none "
+                    required
                     value={contactData.email}
                     onChange={(e) => {
                       handleChange(e);
@@ -93,20 +119,40 @@ const Contact = () => {
                   />
                 </div>
               </div>
-              <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[100%]">
-                <LuNewspaper className="text-(--color-secondary)" />
-                <input
-                  type="text"
-                  name="subject"
-                  id="contactSubject"
-                  placeholder="Enter your subject"
-                  className="w-full outline-none "
-                  value={contactData.subject}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
+              <div className="flex gap-3">
+                <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[100%]">
+                  <LuNewspaper className="text-(--color-secondary)" />
+                  <input
+                    type="text"
+                    name="subject"
+                    id="contactSubject"
+                    placeholder="Enter your subject"
+                    className="w-full outline-none "
+                    required
+                    value={contactData.subject}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  />
+                </div>
+
+                <div className="border border-(--color-secondary) flex gap-2 items-center p-2 rounded-md w-[100%]">
+                  <FaPhone className="text-(--color-secondary)" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    id="contactPhone"
+                    placeholder="Enter your phone number"
+                    className="w-full outline-none "
+                    required
+                    value={contactData.phone}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  />
+                </div>
               </div>
+
               <div className="border border-(--color-secondary) flex gap-2 items-top p-2 rounded-md w-[100%]">
                 <LuPencil className="text-(--color-secondary)" />
                 <textarea
@@ -116,6 +162,7 @@ const Contact = () => {
                   id="contactMessage"
                   placeholder="Enter your Message"
                   className="w-full outline-none "
+                  required
                   value={contactData.message}
                   onChange={(e) => {
                     handleChange(e);

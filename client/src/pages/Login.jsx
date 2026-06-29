@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
+import api from "../config/api.config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,22 +13,32 @@ const Login = () => {
     const value = e.target.value;
 
     setLoginData({ ...loginData, [name]: value });
-    console.log({ ...loginData, [name]: value });
   }
 
-  function submitForm(e) {
-    e.preventDefault();
-    // Validation of submitted data
+  async function submitForm(e) {
+    try {
+      e.preventDefault();
+      // Validation of submitted data
 
-    // Creating a payLoad
+      // Creating a payLoad
+      const payload = {
+        email: loginData.email,
+        password: loginData.password,
+      };
 
-    const payload = {
-      email: loginData.email,
-      password: loginData.password,
-    };
+      // Sending API
+      const response = await api.post("/auth/login", payload);
 
-    console.log(payload);
-    setLoginData({ email: "", password: "" });
+      console.log(response);
+
+      //console.log(payload);
+
+      // Clear Form
+      setLoginData({ email: "", password: "" });
+    } catch (error) {
+      const ErrMessage = error?.response?.data?.message || error.message;
+      console.log(ErrMessage);
+    }
   }
 
   return (

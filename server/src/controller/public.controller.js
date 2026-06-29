@@ -1,7 +1,9 @@
 import contact from "../model/contact.model.js";
 
-const ContactUs = async (req, res, next) => {
+export const ContactUs = async (req, res, next) => {
   try {
+    console.log(req.body);
+    console.log("Contact Us API called");
     const { fullName, email, phone, subject, message } = req.body;
 
     if (!fullName || !email || !phone || !subject || !message) {
