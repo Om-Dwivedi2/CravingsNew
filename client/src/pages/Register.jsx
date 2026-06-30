@@ -6,6 +6,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../config/api.config.js";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -52,11 +53,14 @@ const Register = () => {
       const res = await api.post("/auth/register", payload);
 
       console.log(payload);
-      console.log(res);
+      toast.success(res.data.message);
 
       clearForm();
     } catch (error) {
-      console.log(error.message);
+      toast.error(
+        error.response.status + " | " + error.response?.data?.message ||
+          error.message,
+      );
     }
   }
 

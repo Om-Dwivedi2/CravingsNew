@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import api from "../config/api.config";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,14 +31,20 @@ const Login = () => {
       const response = await api.post("/auth/login", payload);
 
       console.log(response);
-
-      //console.log(payload);
+      toast.success(response.data.message);
 
       // Clear Form
       setLoginData({ email: "", password: "" });
+
+      sessionStorage.setItem("UserData" , JSON.stringify(response.data.data));
+
+      navigate("/user/dashboard");
+      
     } catch (error) {
-      const ErrMessage = error?.response?.data?.message || error.message;
-      console.log(ErrMessage);
+      toast.error(
+        error.response.status + " | " + error.response?.data?.message ||
+          error.message,
+      );
     }
   }
 

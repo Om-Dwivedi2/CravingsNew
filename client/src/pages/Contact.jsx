@@ -9,6 +9,7 @@ import { LuNewspaper } from "react-icons/lu";
 import { FaPhone } from "react-icons/fa6";
 import { useState } from "react";
 import api from "../config/api.config";
+import toast from "react-hot-toast";
 
 const Contact = () => {
   const [contactData, setContactData] = useState({
@@ -48,12 +49,14 @@ const Contact = () => {
 
       const response = await api.post("/public/contact", payload);
       console.log(response);
+      toast.success(response.data.message);
 
       clearForm();
-      
     } catch (error) {
-      const ErrMessage = error?.response?.data?.message || error.message;
-      console.log(ErrMessage);
+      toast.error(
+        error.response.status + " | " + error?.response?.data?.message ||
+          error.message,
+      );
     }
   }
 

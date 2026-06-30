@@ -45,16 +45,14 @@ export const RegisterUser = async (req, res, next) => {
 
 export const LoginUser = async (req, res, next) => {
   try {
-    console.log(1);
-    
     const { email, password } = req.body;
-console.log(2);
+
     if (!email || !password) {
       const error = new Error("Fill all fields");
       error.statusCode = 400;
       return next(error);
     }
-console.log(3);
+
     const existingUser = await User.findOne({ email });
 
     if (!existingUser) {
@@ -62,19 +60,19 @@ console.log(3);
       error.statusCode = 400;
       return next(error);
     }
-console.log(4);
-    
-    const isPasswordCorrect = await bcrypt.compare(password,existingUser.password);
 
-console.log(5);
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password,
+    );
+
     if (!isPasswordCorrect) {
       const error = new Error("Incorrect Password");
       error.statusCode = 400;
       return next(error);
     }
-console.log(6);
-    res.status(200).json({ message: "User Successfully Login" });
-  console.log(7);
+
+    res.status(200).json({ message: "User Successfully Login" , data: existingUser});
   } catch (error) {
     console.log(error.message);
     next(error);

@@ -21,7 +21,7 @@ export const ContactUs = async (req, res, next) => {
       message,
     });
 
-    res.status(201).json({ message: "New contact User created" , data: contactUser});
+    res.status(201).json({ message: "Your Enquiry has been Send" , data: contactUser});
 
   } catch (error) {
     console.log(error.message);

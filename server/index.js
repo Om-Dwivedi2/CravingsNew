@@ -18,6 +18,8 @@ app.use(morgan("dev"));
 
 app.use("/auth", authRouter);
 app.use("/public", publicRouter)
+
+
 // Default Error handler
 
 app.use((err, req, res, next) => {
@@ -29,9 +31,11 @@ app.use((err, req, res, next) => {
   res.status(errStatusCode).json({ message: errMessage });
 });
 
-const port = 4500 || process.env.PORT;
+const port =  process.env.PORT || 5000;
 
 app.listen(port, async () => {
   console.log("Server is running at port: ", port);
   await connectDB();
 });
+
+
