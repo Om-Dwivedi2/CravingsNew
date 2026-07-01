@@ -5,6 +5,7 @@
 :root {
   --color-primary:          #CE3901;  /* Brand orange-red */
   --color-primary-subtle:   #EEB08D;
+  --color-background:       #fff8f1;  /* Page background */
   --color-primary-content:  #ffffff;  /* Text on primary background */
   --color-secondary:        #6b7280;  /* Muted gray text */
   --color-neutral:          #3f3f46;  /* Dark sections (footer, bars) */

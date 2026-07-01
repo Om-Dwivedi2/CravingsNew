@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "../model/User.model.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const RegisterUser = async (req, res, next) => {
   try {
@@ -33,6 +34,12 @@ export const RegisterUser = async (req, res, next) => {
       dob,
       password: hashedPassword,
     });
+
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.cookie("UserToken", token);
 
     res
       .status(201)
@@ -72,7 +79,15 @@ export const LoginUser = async (req, res, next) => {
       return next(error);
     }
 
-    res.status(200).json({ message: "User Successfully Login" , data: existingUser});
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.cookie("UserToken", token);
+
+    res
+      .status(200)
+      .json({ message: "User Successfully Login", data: existingUser });
   } catch (error) {
     console.log(error.message);
     next(error);

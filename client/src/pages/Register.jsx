@@ -56,6 +56,8 @@ const Register = () => {
       toast.success(res.data.message);
 
       clearForm();
+
+      navigate("/user/dashboard");
     } catch (error) {
       toast.error(
         error.response.status + " | " + error.response?.data?.message ||
