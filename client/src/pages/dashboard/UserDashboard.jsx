@@ -39,10 +39,10 @@ const UserDashboard = () => {
       <div className="flex">
         <Sidebar active={active} setActive={setActive} />
         <div className="bg-(--color-background) w-full px-5 text-black">
-          {active == Overview && <Overview />}
-          {active == Order && <Order />}
-          {active == Wishlist && <Wishlist />}
-          {active == Settings && <Settings />}
+          {active == "Overview" && <Overview />}
+          {active == "Order" && <Order />}
+          {active == "Wishlist" && <Wishlist />}
+          {active == "Settings" && <Settings />}
 
         </div>
       </div>

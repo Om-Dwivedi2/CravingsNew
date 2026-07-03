@@ -7,9 +7,12 @@ const Header = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
 
   const [toggle, setToggle] = useState(false);
-  console.log(toggle);
-  
-  console.log(user);
+
+  function handleSignOut() {
+    setUser("");
+    sessionStorage.setItem("UserData", JSON.stringify(""));
+    
+  }
 
   return (
     <>
@@ -30,23 +33,48 @@ const Header = () => {
         <div className="space-x-5">
           {isLogin ? (
             <>
-              <div className="flex gap-2 items-center ">
-                <div className="w-10 h-10 rounded-[50%] overflow-hidden">
-                  <img
-                    src={user.photo?.url}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>{user.fullName}</div>
-                <div className="transition-transform duration-250"
-                  onClick={() => {
-                    toggle ? setToggle(false) : setToggle(true);
-                  }}
-                  style={toggle ? { transform: "rotate(180deg)" } : { transform: "rotate(0deg)" }}
+              <div className="relative">
+                <section className="flex gap-2 items-center ">
+                  <div className="w-10 h-10 rounded-[50%] overflow-hidden">
+                    <img
+                      src={user.photo?.url}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <div
+                    className="flex gap-2 items-center "
+                    onClick={() => {
+                      toggle ? setToggle(false) : setToggle(true);
+                    }}
+                  >
+                    {user.fullName}
+                    <FaAngleDown
+                      className="transition-transform duration-250"
+                      style={
+                        toggle
+                          ? { transform: "rotate(180deg)" }
+                          : { transform: "rotate(0deg)" }
+                      }
+                    />
+                  </div>
+                </section>
+
+                <section
+                  className={`absolute bg-white  rounded top-3/2 right-0 shadow-lg p-4 ${toggle ? "block" : "hidden"}`}
                 >
-                  <FaAngleDown />
-                </div>
+                  <div className="flex items-center justify-between  mb-2">
+                    <p className="text-[12px] text-gray-600">signed in as</p>
+                    <button
+                      className="text-[12px] text-white px-2 py-1.5 rounded-lg bg-red-500 font-semibold"
+                      onClick={() => handleSignOut()}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                  <div className="text-[13px] text-black">{user.email}</div>
+                </section>
               </div>
             </>
           ) : (
