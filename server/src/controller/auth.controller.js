@@ -21,6 +21,13 @@ export const RegisterUser = async (req, res, next) => {
       return next(error);
     }
 
+    const photoUrl = `https://placehold.co/600x400?text=${fullName.charAt(0).toUpperCase()}`;
+
+    const photo = {
+      url: photoUrl,
+      publicId: null,
+    };
+
     const SALT = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, SALT);
 
@@ -33,6 +40,7 @@ export const RegisterUser = async (req, res, next) => {
       gender,
       dob,
       password: hashedPassword,
+      photo,
     });
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {

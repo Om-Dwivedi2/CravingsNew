@@ -7,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../config/api.config.js";
 import toast from "react-hot-toast";
+import { Auth } from "../context/AuthContext.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
+  const {user, setUser} = Auth();
+
   const [activeRole, setActiveRole] = useState({
     restaurant: false,
     customer: false,
@@ -50,11 +53,15 @@ const Register = () => {
         password: formData.password,
       };
 
-      const res = await api.post("/auth/register", payload);
+      const response = await api.post("/auth/register", payload);
 
       console.log(payload);
-      toast.success(res.data.message);
+      toast.success(response.data.message);
 
+      sessionStorage.setItem("UserData", JSON.stringify(response.data.data));
+      setUser(response.data.data);
+     
+      
       clearForm();
 
       navigate("/user/dashboard");

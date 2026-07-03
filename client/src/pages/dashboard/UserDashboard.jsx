@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import api from "../../config/api.config";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import MainDashboard from "./MainDashboard";
+import Sidebar from "../../components/userDashboard/Sidebar";
 
+import { Auth } from "../../context/AuthContext";
+import Order from "../../components/userDashboard/Order";
+import Overview from "../../components/userDashboard/Overview";
+import Wishlist from "../../components/userDashboard/Wishlist";
+import Settings from "../../components/userDashboard/Settings";
 const UserDashboard = () => {
-  const [userData, setUserData] = useState("");
   const navigate = useNavigate();
+  const { user, setUser, isLogin, setIsLogin } = Auth();
 
+  const [active, setActive] = useState("Overview");
 
-  async function defaultFunction() {
+  async function checkToken() {
     try {
       const response = await api.get("/user/dashboard");
 
@@ -18,32 +23,29 @@ const UserDashboard = () => {
     } catch (error) {
       toast.error(
         error.response?.status + " | " + error.response?.data?.message ||
-          error.message,
+        error.message,
       );
 
       navigate("/login");
     }
   }
 
-  
-
   useEffect(() => {
-    defaultFunction();
-    setUserData(JSON.parse(sessionStorage.getItem("UserData")));
-  }, []);
+    checkToken();
+  }, [isLogin]);
 
   return (
     <>
-      {/* <div>Welcome Back</div>
-      <div>{userData.fullName}</div>
-      <div>skfnck,sjemfhncw,ejsmfn</div> */}
+      <div className="flex">
+        <Sidebar active={active} setActive={setActive} />
+        <div className="bg-(--color-background) w-full px-5 text-black">
+          {active == Overview && <Overview />}
+          {active == Order && <Order />}
+          {active == Wishlist && <Wishlist />}
+          {active == Settings && <Settings />}
 
-        <div className="flex">
-          <Sidebar/>
-          <MainDashboard userData={userData}/>
         </div>
-
-
+      </div>
     </>
   );
 };

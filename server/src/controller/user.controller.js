@@ -3,10 +3,10 @@ import jwt from "jsonwebtoken";
 
 export const UserDashboard = async (req, res, next) => {
   try {
-    console.log(1);
+    
 
     const token = req.cookies.UserToken;
-    console.log(2);
+  
 
     if (!token) {
       const error = new Error(" Sorry Session Expired!!!");

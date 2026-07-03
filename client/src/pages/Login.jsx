@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../config/api.config";
 import toast from "react-hot-toast";
+import { Auth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { user, setUser } = Auth();
 
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
@@ -36,10 +38,12 @@ const Login = () => {
       // Clear Form
       setLoginData({ email: "", password: "" });
 
-      sessionStorage.setItem("UserData" , JSON.stringify(response.data.data));
+      sessionStorage.setItem("UserData", JSON.stringify(response.data.data));
+
+      setUser(response.data.data);
+      
 
       navigate("/user/dashboard");
-      
     } catch (error) {
       toast.error(
         error.response.status + " | " + error.response?.data?.message ||

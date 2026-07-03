@@ -24,6 +24,15 @@ const UserSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+
+  photo: {
+    url: {
+      type: String,
+    },
+    publicId: {
+      type: String,
+    },
+  },
 });
 
 export const User = mongoose.model("user", UserSchema);
