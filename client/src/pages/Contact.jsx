@@ -44,7 +44,11 @@ const Contact = () => {
 
       // payload
       const payload = {
-        ...contactData,
+        fullName: contactData.fullName,
+        email: contactData.email,
+        phone: contactData.phone,
+        subject: contactData.subject,
+        message: contactData.message,
       };
 
       const response = await api.post("/public/contact", payload);

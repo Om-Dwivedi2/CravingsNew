@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { User } from "../model/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { genToken } from "../utils/auth.service.js";
 
 export const RegisterUser = async (req, res, next) => {
   try {
@@ -43,11 +44,7 @@ export const RegisterUser = async (req, res, next) => {
       photo,
     });
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.cookie("UserToken", token);
+    await genToken(res,newUser);
 
     res
       .status(201)
@@ -87,12 +84,8 @@ export const LoginUser = async (req, res, next) => {
       return next(error);
     }
 
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.cookie("UserToken", token);
-
+    await genToken(res, existingUser);
+    
     res
       .status(200)
       .json({ message: "User Successfully Login", data: existingUser });

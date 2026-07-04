@@ -1,11 +1,41 @@
-const AuthProtect = (req, res, next) => {
+import jwt from "jsonwebtoken";
+import { User } from "../model/User.model.js";
+
+export const AuthProtect = async (req, res, next) => {
   try {
     // Middleware Logic
 
+    const token = req.cookies.UserToken;
+
+    if (!token) {
+      const error = new Error("Session Expired");
+      error.statusCode = 401;
+      return next(error);
+    }
+
+    const decode = await jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decode) {
+      const error = new Error("Session Expired");
+      error.statusCode = 401;
+      return next(error);
+    }
+
+    console.log("decode :", decode);
+
+    const verifyUser = await User.findById(decode.id);
+
+    if (!verifyUser) {
+      const error = new Error("User Doesn't Exist");
+      error.statusCode = 401;
+      return next(error);
+    }
+
+    req.user = verifyUser;
+
     next();
   } catch (error) {
-    const error = new Error("Error from the middleware");
-    error.statusCode = 400;
-    next(error);
+    console.log(error.message);
+    return next(error);
   }
 };

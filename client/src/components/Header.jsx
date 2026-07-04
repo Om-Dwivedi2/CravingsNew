@@ -10,7 +10,11 @@ const Header = () => {
 
   function handleSignOut() {
     setUser("");
-    sessionStorage.setItem("UserData", JSON.stringify(""));
+    sessionStorage.removeItem("UserData")
+    setIsLogin(false);
+
+    
+
     
   }
 

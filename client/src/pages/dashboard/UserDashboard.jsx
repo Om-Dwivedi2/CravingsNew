@@ -38,7 +38,7 @@ const UserDashboard = () => {
     <>
       <div className="flex">
         <Sidebar active={active} setActive={setActive} />
-        <div className="bg-(--color-background) w-full px-5 text-black">
+        <div className="bg-(--color-background) w-full p-10 text-black">
           {active == "Overview" && <Overview />}
           {active == "Order" && <Order />}
           {active == "Wishlist" && <Wishlist />}
