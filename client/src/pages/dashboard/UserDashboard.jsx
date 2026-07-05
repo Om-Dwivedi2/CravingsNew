@@ -15,25 +15,6 @@ const UserDashboard = () => {
 
   const [active, setActive] = useState("Overview");
 
-  async function checkToken() {
-    try {
-      const response = await api.get("/user/dashboard");
-
-      toast.success(response.status + " | " + response.data.message);
-    } catch (error) {
-      toast.error(
-        error.response?.status + " | " + error.response?.data?.message ||
-        error.message,
-      );
-
-      navigate("/login");
-    }
-  }
-
-  useEffect(() => {
-    checkToken();
-  }, [isLogin]);
-
   return (
     <>
       <div className="flex">
@@ -43,7 +24,6 @@ const UserDashboard = () => {
           {active == "Order" && <Order />}
           {active == "Wishlist" && <Wishlist />}
           {active == "Settings" && <Settings />}
-
         </div>
       </div>
     </>

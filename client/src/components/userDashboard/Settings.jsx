@@ -9,6 +9,9 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { IoLocationOutline } from "react-icons/io5";
 import { HiOutlineCreditCard } from "react-icons/hi2";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { FaCamera } from "react-icons/fa";
+import api from "../../config/api.config";
+import toast from "react-hot-toast";
 
 const Settings = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
@@ -28,7 +31,34 @@ const Settings = () => {
     setTempUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSaveChanges = async (e) => {};
+  const handleSaveChanges = async (e) => {
+    try {
+      const payload = {
+        fullName: tempUser.fullName,
+        phone: tempUser.phone,
+        email: tempUser.email,
+      };
+
+      const response = await api.put(`/user/edit-profile`, payload);
+
+      setUser(response.data.data);
+      setIsEdit(false);
+
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(
+        error.response.status + " | " + error.response.data.message ||
+          error.message,
+      );
+    }
+  };
+
+  const handleUploadImg = () => {
+
+    
+
+
+  };
 
   return (
     <>
@@ -36,20 +66,37 @@ const Settings = () => {
       <p className="text-(--color-secondary) pb-5 ">
         Manage your accout information and preferences
       </p>
-      <div className="grid grid-cols-[4fr_3fr] gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[4fr_3fr] gap-5">
         <div className="bg-white rounded-lg p-5 shadow space-y-2">
           <h2 className="text-xl">Profile Information</h2>
           <p className="text-(--color-secondary) text-sm">
-            Update your profile details{" "}
+            Update your profile details
           </p>
 
           <div className="flex gap-20 items-center px-10 py-5">
-            <section className="flex flex-col gap-2 items-center">
-              <div className="w-30 h-30 rounded-[50%] overflow-hidden">
-                <img
-                  className="w-full h-full object-cover "
-                  src={user.photo.url}
-                  alt=""
+            <section className="flex flex-col gap-2 items-center w-[30%]">
+              <div className="relative">
+                <div className="  w-30 h-30 rounded-[50%] overflow-hidden border-[#CE3901]">
+                  <img
+                    className="w-full h-full object-cover "
+                    src={user.photo?.url}
+                    alt=""
+                  />
+                </div>
+                <label
+                  htmlFor="photoUpload"
+                  className="absolute rounded-[50%] bg-[#CE3901] text-white p-2 bottom-0 right-0"
+                >
+                  <FaCamera />
+                </label>
+
+                <input
+                  type="file"
+                  name="photoUpload"
+                  id="photoUpload"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleUploadImg}
                 />
               </div>
               <div className="text-sm text-(--color-primary) font-semibold">
@@ -60,73 +107,117 @@ const Settings = () => {
               </div>
             </section>
             <section className="flex flex-col gap-2 w-full ">
-              <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="fullName" className="font-semibold">
-                  Name
-                </label>
-                <div className="flex gap-3 border border-gray-300 rounded-md py-1 px-4 focus:outline-none focus:border-(--color-primary) items-center ">
-                  <FiUser className="text-(--color-secondary)" />
-                  <input
-                    type="text"
-                    name="fullName"
-                    id="fullName"
-                    className="focus:outline-none w-full bg-white"
-                    value={tempUser.fullName}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+              {isEdit ? (
+                <>
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="fullName" className="font-semibold">
+                      Name
+                    </label>
+                    <div className="flex gap-3 border border-gray-300 rounded-md py-1 px-4 focus:outline-none focus:border-(--color-primary) items-center ">
+                      <FiUser className="text-(--color-secondary)" />
+                      <input
+                        type="text"
+                        name="fullName"
+                        id="fullName"
+                        className="focus:outline-none w-full bg-white"
+                        value={tempUser.fullName}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
 
-              <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="phone" className="font-semibold">
-                  Phone
-                </label>
-                <div className="flex gap-3 border border-gray-300 rounded-md py-1 px-4 focus:outline-none focus:border-(--color-primary) items-center ">
-                  <MdOutlineLocalPhone className="text-(--color-secondary)" />
-                  <input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    className="focus:outline-none w-full bg-white"
-                    value={tempUser.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="phone" className="font-semibold">
+                      Phone
+                    </label>
+                    <div className="flex gap-3 border border-gray-300 rounded-md py-1 px-4 focus:outline-none focus:border-(--color-primary) items-center ">
+                      <MdOutlineLocalPhone className="text-(--color-secondary)" />
+                      <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        className="focus:outline-none w-full bg-white"
+                        value={tempUser.phone}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
 
-              <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="email" className="font-semibold">
-                  Email
-                </label>
-                <div className="flex gap-3 border border-gray-300 rounded-md py-1 px-4 focus:outline-none focus:border-(--color-primary) items-center ">
-                  <MdOutlineEmail className="text-(--color-secondary)" />
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className="focus:outline-none w-full bg-white"
-                    value={tempUser.email}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="email" className="font-semibold">
+                      Email
+                    </label>
+                    <div className="flex gap-3 border border-gray-300 rounded-md py-1 px-4 focus:outline-none focus:border-(--color-primary) items-center ">
+                      <MdOutlineEmail className="text-(--color-secondary)" />
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        className="focus:outline-none w-full bg-white cursor-not-allowed"
+                        value={tempUser.email}
+                        onChange={handleChange}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="fullName" className="font-semibold">
+                      Name
+                    </label>
+
+                    <div>{tempUser.fullName}</div>
+                  </div>
+
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="phone" className="font-semibold">
+                      Phone
+                    </label>
+
+                    <div>{tempUser.phone}</div>
+                  </div>
+
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="email" className="font-semibold">
+                      Email
+                    </label>
+
+                    <div>{tempUser.email}</div>
+                  </div>
+                </>
+              )}
             </section>
           </div>
 
           <div className="flex justify-end gap-5">
             {isEdit ? (
               <>
-                <button className="border py-2 px-4 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95">
+                <button
+                  className="border py-2 px-4 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
+                  onClick={() => {
+                    handleSaveChanges();
+                    setIsEdit(false);
+                  }}
+                >
                   Save Changes
                 </button>
-                <button className="border py-2 px-4 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95">
+                <button
+                  className="border py-2 px-4 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"
+                  onClick={() => {
+                    setIsEdit(false);
+                  }}
+                >
                   Cancel
                 </button>
               </>
             ) : (
               <button
                 className="border flex gap-2 items-center py-2 px-4 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"
-                onClick={console.log("hello")}
+                onClick={() => {
+                  setIsEdit(true);
+                }}
               >
                 <MdOutlineModeEdit className="text-lg" />
                 Edit

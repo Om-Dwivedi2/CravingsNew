@@ -1,9 +1,10 @@
 import express from "express";
-import { UserDashboard } from "../controller/user.controller.js";
+import { UserUpdateProfile} from "../controller/user.controller.js";
 import { AuthProtect } from "../middleware/AuthProtect.js";
 
 const router = express.Router();
 
-router.get("/dashboard", AuthProtect, UserDashboard);
+router.put("/edit-profile", AuthProtect, UserUpdateProfile);
+
 
 export default router;

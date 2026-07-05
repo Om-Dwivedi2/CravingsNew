@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import logo from "../assets/circleLogo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "../context/AuthContext";
 import { FaAngleDown } from "react-icons/fa6";
+import api from "../config/api.config";
 const Header = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
-
+  const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
 
-  function handleSignOut() {
-    setUser("");
-    sessionStorage.removeItem("UserData")
-    setIsLogin(false);
+  const handleSignOut = async () => {
+    try {
+      const response = await api.get("/auth/logout");
+      setUser("");
+      sessionStorage.removeItem("UserData");
+      setIsLogin(false);
+      navigate("/");
 
-    
-
-    
-  }
+      toast.success(response.data?.message);
+    } catch (error) {
+      toast.error(
+        error.response?.status + " | " + error.response?.data?.message ||
+          error.message,
+      );
+    }
+  };
 
   return (
     <>
-      <header className="bg-(--color-primary) h-[10vh] text-white flex  items-center justify-between px-10 py-1">
+      <header className="bg-(--color-primary) h-[10vh] sticky top-0 text-white flex  items-center justify-between px-10 py-1">
         <Link to={"/"}>
           <img src={logo} alt="" className="w-13 rounded-[50%] " />
         </Link>

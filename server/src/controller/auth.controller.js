@@ -44,7 +44,7 @@ export const RegisterUser = async (req, res, next) => {
       photo,
     });
 
-    await genToken(res,newUser);
+    await genToken(res, newUser);
 
     res
       .status(201)
@@ -85,7 +85,7 @@ export const LoginUser = async (req, res, next) => {
     }
 
     await genToken(res, existingUser);
-    
+
     res
       .status(200)
       .json({ message: "User Successfully Login", data: existingUser });
@@ -95,4 +95,12 @@ export const LoginUser = async (req, res, next) => {
   }
 };
 
-export const LogoutUser = async (req, res, next) => {};
+export const LogoutUser = async (req, res, next) => {
+  try {
+    res.clearCookie("UserToken", { maxAge: 0 });
+    res.status(200).json({ message: "Logout Successfull" });
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+};

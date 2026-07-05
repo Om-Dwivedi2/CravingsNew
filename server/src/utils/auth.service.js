@@ -8,7 +8,9 @@ export async function genToken(res, existingUser) {
     });
 
     res.cookie("UserToken", token);
-    console.log("token Succesfully Created: ", token);
+    console.log("token Succesfully Created: ", token,
+      
+    );
   } catch (error) {
     throw next(error);
   }
