@@ -46,7 +46,7 @@ const Register = () => {
       const payload = {
         // role: formData.role,
         fullName: formData.fullName,
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         phone: formData.phone,
         gender: formData.gender,
         dob: formData.dob,

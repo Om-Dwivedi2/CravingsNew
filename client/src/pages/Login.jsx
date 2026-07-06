@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { Link, useNavigate } from "react-router-dom";
 import api from "../config/api.config";
 import toast from "react-hot-toast";
@@ -9,13 +8,13 @@ const Login = () => {
   const navigate = useNavigate();
   const { user, setUser } = Auth();
 
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   function handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
 
-    setLoginData({ ...loginData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   }
 
   async function submitForm(e) {
@@ -25,8 +24,8 @@ const Login = () => {
 
       // Creating a payLoad
       const payload = {
-        email: loginData.email,
-        password: loginData.password,
+        email: formData.email.toLowerCase(),
+        password: formData.password,
       };
 
       // Sending API
@@ -36,7 +35,7 @@ const Login = () => {
       toast.success(response.data.message);
 
       // Clear Form
-      setLoginData({ email: "", password: "" });
+      setFormData({ email: "", password: "" });
 
       sessionStorage.setItem("UserData", JSON.stringify(response.data.data));
 
@@ -77,7 +76,7 @@ const Login = () => {
               name="email"
               id="emailLogin"
               required
-              value={loginData.email}
+              value={formData.email}
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -98,7 +97,7 @@ const Login = () => {
               name="password"
               id="passwordLogin"
               required
-              value={loginData.password}
+              value={formData.password}
               onChange={(e) => {
                 handleChange(e);
               }}

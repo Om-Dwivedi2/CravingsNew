@@ -12,7 +12,7 @@ import api from "../config/api.config";
 import toast from "react-hot-toast";
 
 const Contact = () => {
-  const [contactData, setContactData] = useState({
+  const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
@@ -24,11 +24,11 @@ const Contact = () => {
     const name = e.target.name;
     const value = e.target.value;
 
-    setContactData({ ...contactData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   }
 
   function clearForm() {
-    setContactData({
+    setFormData({
       fullName: "",
       email: "",
       phone: "",
@@ -40,15 +40,15 @@ const Contact = () => {
   async function handleSubmit(e) {
     try {
       e.preventDefault();
-      // validation on contactData
+      // validation on formData
 
       // payload
       const payload = {
-        fullName: contactData.fullName,
-        email: contactData.email,
-        phone: contactData.phone,
-        subject: contactData.subject,
-        message: contactData.message,
+        fullName: formData.fullName,
+        email: formData.email.toLowerCase(),
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
       };
 
       const response = await api.post("/public/contact", payload);
@@ -104,7 +104,7 @@ const Contact = () => {
                     placeholder="Enter your full name"
                     className="w-full outline-none "
                     required
-                    value={contactData.fullName}
+                    value={formData.fullName}
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -119,7 +119,7 @@ const Contact = () => {
                     placeholder="Enter your Email"
                     className="w-full outline-none "
                     required
-                    value={contactData.email}
+                    value={formData.email}
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -136,7 +136,7 @@ const Contact = () => {
                     placeholder="Enter your subject"
                     className="w-full outline-none "
                     required
-                    value={contactData.subject}
+                    value={formData.subject}
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -152,7 +152,7 @@ const Contact = () => {
                     placeholder="Enter your phone number"
                     className="w-full outline-none "
                     required
-                    value={contactData.phone}
+                    value={formData.phone}
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -170,7 +170,7 @@ const Contact = () => {
                   placeholder="Enter your Message"
                   className="w-full outline-none "
                   required
-                  value={contactData.message}
+                  value={formData.message}
                   onChange={(e) => {
                     handleChange(e);
                   }}

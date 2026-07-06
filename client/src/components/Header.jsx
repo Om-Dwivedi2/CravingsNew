@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "../context/AuthContext";
 import { FaAngleDown } from "react-icons/fa6";
 import api from "../config/api.config";
+import toast from "react-hot-toast";
 const Header = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-(--color-primary) h-[10vh] sticky top-0 text-white flex  items-center justify-between px-10 py-1">
+      <header className="bg-(--color-primary) h-[10vh] sticky top-0 z-99 text-white flex  items-center justify-between px-10 py-1">
         <Link to={"/"}>
           <img src={logo} alt="" className="w-13 rounded-[50%] " />
         </Link>

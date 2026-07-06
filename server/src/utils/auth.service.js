@@ -7,11 +7,15 @@ export async function genToken(res, existingUser) {
       expiresIn: "1h",
     });
 
-    res.cookie("UserToken", token);
-    console.log("token Succesfully Created: ", token,
-      
-    );
+    res.cookie("UserToken", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 3600000,
+      path: "/"
+    });
+    console.log("token Succesfully Created: ", token);
   } catch (error) {
     throw next(error);
   }
-};
+}
