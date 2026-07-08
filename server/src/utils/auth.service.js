@@ -11,8 +11,8 @@ export async function genToken(res, existingUser) {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
-      maxAge: 3600000,
-      path: "/"
+      maxAge: 1000 * 60 * 60 * 24,
+      path: "/",
     });
     console.log("token Succesfully Created: ", token);
   } catch (error) {

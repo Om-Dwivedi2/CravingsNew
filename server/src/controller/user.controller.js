@@ -27,13 +27,12 @@ export const UserUpdateProfile = async (req, res, next) => {
     console.log("newPhoto: ", newPhoto);
 
     if (newPhoto) {
-      console.log(1);
+      existingUser?.photo?.publicId &&
+        (await cloudinary.uploader.destroy(existingUser.photo.publicId));
 
       const b64 = Buffer.from(newPhoto.buffer).toString("base64");
-      console.log(2);
 
       const dataURI = `data:${newPhoto.mimetype};base64,${b64}`;
-      console.log(dataURI.slice(0,100));
 
       const result = await cloudinary.uploader.upload(dataURI, {
         folder: "Cravings/profiles",
@@ -44,24 +43,19 @@ export const UserUpdateProfile = async (req, res, next) => {
 
       console.log("Result: ", result);
 
-      console.log(4);
+      existingUser.photo.url = result.secure_url;
+      existingUser.photo.publicId = result.public_id;
     }
 
-    const payload = {
-      fullName,
-      email,
-      phone,
-    };
+    existingUser.fullName = fullName;
+    existingUser.email = email;
+    existingUser.phone = phone;
 
-    const updatedUser = await User.findByIdAndUpdate(
-      existingUser._id,
-      payload,
-      { new: true },
-    );
+    existingUser.save();
 
     res
       .status(200)
-      .json({ message: "User Updated Sucesfully", data: updatedUser });
+      .json({ message: "User Updated Sucesfully", data: existingUser });
   } catch (error) {
     console.log(error.message);
     next(error);

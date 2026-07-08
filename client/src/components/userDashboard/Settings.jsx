@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 
 const Settings = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
+  const [isProcessing, setIsProcessing] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [formData, setFormData] = useState({
     fullName: user.fullName,
@@ -32,6 +33,7 @@ const Settings = () => {
 
   const handleSaveChanges = async (e) => {
     try {
+      setIsProcessing(true);
       const payload = new FormData();
 
       payload.append("fullName", formData.fullName);
@@ -42,7 +44,7 @@ const Settings = () => {
       const response = await api.put(`/user/edit-profile`, payload);
 
       setUser(response.data.data);
-      setIsEdit(false);
+      
 
       toast.success(response.data.message);
     } catch (error) {
@@ -50,6 +52,11 @@ const Settings = () => {
         error.response.status + " | " + error.response.data.message ||
           error.message,
       );
+
+      setPhotoPreview(user.photo?.url);
+    } finally {
+      setIsEdit(false);
+      setIsProcessing(false);
     }
   };
 
@@ -77,7 +84,7 @@ const Settings = () => {
           <div className="flex gap-20 items-center px-10 py-5">
             <section className="flex flex-col gap-2 items-center w-[30%]">
               <div className="relative">
-                <div className="  w-30 h-30 rounded-[50%] overflow-hidden border-[#CE3901]">
+                <div className="  w-30 h-30 rounded-[50%] overflow-hidden border-2 border-(--color-primary)">
                   <img
                     className="w-full h-full object-cover "
                     src={photoPreview}
@@ -86,10 +93,7 @@ const Settings = () => {
                 </div>
                 <label
                   htmlFor="photoUpload"
-                  className="absolute rounded-[50%] bg-[#CE3901] text-white p-2 bottom-0 right-0 cursor-pointer"
-                  onClick={() => {
-                    !isEdit && toast.error("Click on Edit to change photo");
-                  }}
+                  className={`absolute rounded-[50%] bg-(--color-primary) text-white p-2 bottom-0 right-0 cursor-pointer ${isEdit ? "block" : "hidden"}`}
                 >
                   <FaCamera />
                 </label>
@@ -170,12 +174,11 @@ const Settings = () => {
               <>
                 <button
                   className="border py-2 px-4 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
-                  onClick={() => {
+                  onClick={async () => {
                     handleSaveChanges();
-                    setIsEdit(false);
                   }}
                 >
-                  Save Changes
+                  {isProcessing ? "Saving..." : "Save Changes"}
                 </button>
                 <button
                   className="border py-2 px-4 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"

@@ -56,7 +56,7 @@ const Header = () => {
                     />
                   </div>
 
-                  <div
+                  <div 
                     className="flex gap-2 items-center "
                     onClick={() => {
                       toggle ? setToggle(false) : setToggle(true);

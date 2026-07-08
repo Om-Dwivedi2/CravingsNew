@@ -33,6 +33,15 @@ const UserSchema = new mongoose.Schema({
       type: String,
     },
   },
+
+  userType:{
+    type:String,
+    enum:["admin", "restaurant", "rider", "customer"],
+    required: true,
+    default:"customer"
+  }
+
+
 });
 
 export const User = mongoose.model("user", UserSchema);
