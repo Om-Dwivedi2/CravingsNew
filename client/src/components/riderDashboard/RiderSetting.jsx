@@ -13,7 +13,7 @@ import { FaCamera } from "react-icons/fa";
 import api from "../../config/api.config";
 import toast from "react-hot-toast";
 
-const Settings = () => {
+const RiderSetting = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -62,7 +62,7 @@ const Settings = () => {
 
   const handleUploadImg = (e) => {
     const file = e.target.files[0];
-    console.log("om");
+  
 
     setPhotoPreview(URL.createObjectURL(file));
     setProfilePic(file);
@@ -70,7 +70,7 @@ const Settings = () => {
 
   return (
     <>
-      <h1 className="text-2xl">Settings</h1>
+      <h1 className="text-2xl">Rider Setting</h1>
       <p className="text-(--color-secondary) pb-5 ">
         Manage your accout information and preferences
       </p>
@@ -265,4 +265,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default RiderSetting;

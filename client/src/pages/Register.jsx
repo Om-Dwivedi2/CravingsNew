@@ -11,7 +11,7 @@ import { Auth } from "../context/AuthContext.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
-  const {user, setUser} = Auth();
+  const { user, setUser } = Auth();
 
   const [activeRole, setActiveRole] = useState({
     restaurant: false,
@@ -60,11 +60,12 @@ const Register = () => {
 
       sessionStorage.setItem("UserData", JSON.stringify(response.data.data));
       setUser(response.data.data);
-     
-      
+
       clearForm();
 
       navigate("/user/dashboard");
+
+      navigate("/login");
     } catch (error) {
       toast.error(
         error.response.status + " | " + error.response?.data?.message ||

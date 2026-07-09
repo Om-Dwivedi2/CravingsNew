@@ -6,9 +6,18 @@ import { genToken } from "../utils/auth.service.js";
 
 export const RegisterUser = async (req, res, next) => {
   try {
-    const { fullName, email, phone, gender, dob, password } = req.body;
+    const { fullName, email, phone, gender, dob, password, userType } =
+      req.body;
 
-    if (!fullName || !email || !phone || !gender || !dob || !password) {
+    if (
+      !fullName ||
+      !email ||
+      !phone ||
+      !gender ||
+      !dob ||
+      !password ||
+      !userType
+    ) {
       const error = new Error("Fill all fields");
       error.statusCode = 400;
       return next(error);
@@ -32,7 +41,7 @@ export const RegisterUser = async (req, res, next) => {
     const SALT = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, SALT);
 
-    console.log({ fullName, email, phone, gender, dob, hashedPassword });
+    console.log({ fullName, email, phone, gender, dob, hashedPassword, userType });
 
     const newUser = await User.create({
       fullName,
@@ -42,6 +51,7 @@ export const RegisterUser = async (req, res, next) => {
       dob,
       password: hashedPassword,
       photo,
+      userType
     });
 
     await genToken(res, newUser);

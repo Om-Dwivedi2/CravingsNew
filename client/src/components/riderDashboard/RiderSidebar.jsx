@@ -6,7 +6,7 @@ import { LuLogOut } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 import { LiaHomeSolid } from "react-icons/lia";
 
-const Sidebar = ({ active, setActive }) => {
+const RiderSidebar = ({ active, setActive }) => {
   const MenuItems = [
     { name: "Overview", icon: <LiaHomeSolid /> },
     { name: "Order", icon: <LiaShoppingBagSolid /> },
@@ -36,4 +36,4 @@ const Sidebar = ({ active, setActive }) => {
   );
 };
 
-export default Sidebar;
+export default RiderSidebar;
