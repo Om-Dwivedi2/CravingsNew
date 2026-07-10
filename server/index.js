@@ -3,7 +3,7 @@ import cloudinary from "./src/config/cloudinary.config.js";
 
 import { connectDB } from "./src/config/connectDB.config.js";
 import authRouter from "./src/router/auth.route.js";
-import userRouter from "./src/router/user.route.js";
+import commonRouter from "./src/router/common.route.js";
 import cors from "cors";
 import morgan from "morgan";
 import publicRouter from "./src/router/public.route.js";
@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use("/public", publicRouter);
-app.use("/user", userRouter);
+app.use("/common", commonRouter);
 
 // Default Error handler
 

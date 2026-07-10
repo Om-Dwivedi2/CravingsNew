@@ -15,12 +15,11 @@ const Register = () => {
 
   const [activeRole, setActiveRole] = useState({
     restaurant: false,
-    customer: false,
+    customer: true,
     rider: false,
   });
 
   const [formData, setFormData] = useState({
-    role: "",
     fullName: "",
     email: "",
     phone: "",
@@ -28,12 +27,11 @@ const Register = () => {
     dob: "",
     password: "",
     confirmPassword: "",
+    userType: "customer",
   });
 
   function handleChange(e) {
-    const name = e.target.name;
-    const value = e.target.value;
-
+    const { name, value } = e.currentTarget || e.target;
     setFormData({ ...formData, [name]: value });
   }
 
@@ -44,13 +42,13 @@ const Register = () => {
       // Validation here
 
       const payload = {
-        // role: formData.role,
         fullName: formData.fullName,
         email: formData.email.toLowerCase(),
         phone: formData.phone,
         gender: formData.gender,
         dob: formData.dob,
         password: formData.password,
+        userType: formData.userType,
       };
 
       const response = await api.post("/auth/register", payload);
@@ -58,12 +56,7 @@ const Register = () => {
       console.log(payload);
       toast.success(response.data.message);
 
-      sessionStorage.setItem("UserData", JSON.stringify(response.data.data));
-      setUser(response.data.data);
-
       clearForm();
-
-      navigate("/user/dashboard");
 
       navigate("/login");
     } catch (error) {
@@ -76,7 +69,6 @@ const Register = () => {
 
   function clearForm() {
     setFormData({
-      role: "",
       fullName: "",
       email: "",
       phone: "",
@@ -84,6 +76,7 @@ const Register = () => {
       dob: "",
       password: "",
       confirmPassword: "",
+      userType: "customer",
     });
   }
 
@@ -106,7 +99,7 @@ const Register = () => {
           <div className="grid grid-cols-3 gap-2 py-2 text-sm text-center">
             <button
               className="flex relative flex-col items-center gap-1 rounded-lg p-1 border border-gray-400"
-              name="role"
+              name="userType"
               value="customer"
               style={{
                 borderColor: activeRole.customer
@@ -116,12 +109,13 @@ const Register = () => {
                   ? "var(--color-base-100)"
                   : "white",
               }}
-              onClick={() => {
+              onClick={(e) => {
                 setActiveRole({
                   restaurant: false,
                   customer: true,
                   rider: false,
                 });
+                handleChange(e);
               }}
             >
               <div className="absolute -top-1.5 -right-1.5 rounded-[50%] p-0.5 bg-white hover:hidden">
@@ -136,9 +130,9 @@ const Register = () => {
                 Order food from retaurants
               </p>
             </button>
-            <div
+            <button
               className="flex relative flex-col items-center gap-1 rounded-lg p-1 border border-gray-400"
-              name="role"
+              name="userType"
               value="restaurant"
               style={{
                 borderColor: activeRole.restaurant
@@ -148,12 +142,13 @@ const Register = () => {
                   ? "var(--color-base-100)"
                   : "white",
               }}
-              onClick={() => {
+              onClick={(e) => {
                 setActiveRole({
                   restaurant: true,
                   customer: false,
                   rider: false,
                 });
+                handleChange(e);
               }}
             >
               <div className="absolute -top-1.5 -right-1.5 rounded-[50%] p-0.5 bg-white ">
@@ -167,11 +162,11 @@ const Register = () => {
               <p className="text-gray-400 text-[10px]">
                 Manage your restaurants & orders
               </p>
-            </div>
+            </button>
 
-            <div
+            <button
               className="flex relative flex-col items-center gap-1 rounded-lg p-1 border border-gray-400"
-              name="role"
+              name="userType"
               value="rider"
               style={{
                 borderColor: activeRole.rider ? "var(--color-primary)" : "gray",
@@ -179,12 +174,13 @@ const Register = () => {
                   ? "var(--color-base-100)"
                   : "white",
               }}
-              onClick={() => {
+              onClick={(e) => {
                 setActiveRole({
                   restaurant: false,
                   customer: false,
                   rider: true,
                 });
+                handleChange(e);
               }}
             >
               <div className="absolute -top-1.5 -right-1.5 rounded-[50%] p-0.5 bg-white hover:hidden">
@@ -198,7 +194,7 @@ const Register = () => {
               <p className="text-gray-400 text-[10px]">
                 Deliver Orders earn on the go
               </p>
-            </div>
+            </button>
           </div>
 
           <div className="flex flex-col gap-3">
@@ -320,7 +316,7 @@ const Register = () => {
           </button>
 
           <div className="text-center text-(--color-secondary) text-sm ">
-            Already Registered?{" "}
+            Already Registered?
             <span
               className="text-(--color-primary) font-semibold hover:underline"
               onClick={() => navigate("/login")}

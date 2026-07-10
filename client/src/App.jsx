@@ -6,14 +6,17 @@ import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import {Toaster} from "react-hot-toast";
-import UserDashboard from "./pages/dashboard/CustomerDashboard";
+import { Toaster } from "react-hot-toast";
+
+import CustomerDashboard from "./pages/dashboard/CustomerDashboard";
+import RestaurantDashboard from "./pages/dashboard/RestaurantDashboard";
+import RiderDashboard from "./pages/dashboard/RiderDashboard";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
-      <Toaster/>
+        <Toaster />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -23,11 +26,14 @@ const App = () => {
 
           {/* DashBoard Routes */}
 
-          <Route path="/user/dashboard" element={<UserDashboard/>}/>
-          
-
+          <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+          <Route
+            path="/restaurant/dashboard"
+            element={<RestaurantDashboard />}
+          />
+          <Route path="/rider/dashboard" element={<RiderDashboard />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </>
   );

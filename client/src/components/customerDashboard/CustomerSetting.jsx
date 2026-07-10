@@ -41,7 +41,7 @@ const CustomerSetting = () => {
       payload.append("email", formData.email.toLowerCase());
       payload.append("displayPic", profilePic);
 
-      const response = await api.put(`/user/edit-profile`, payload);
+      const response = await api.put(`/common/edit-profile`, payload);
 
       setUser(response.data.data);
       

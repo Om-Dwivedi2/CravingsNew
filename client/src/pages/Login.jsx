@@ -31,7 +31,6 @@ const Login = () => {
       // Sending API
       const response = await api.post("/auth/login", payload);
 
-      console.log(response);
       toast.success(response.data.message);
 
       // Clear Form
@@ -40,9 +39,13 @@ const Login = () => {
       sessionStorage.setItem("UserData", JSON.stringify(response.data.data));
 
       setUser(response.data.data);
-      
 
-      navigate("/user/dashboard");
+      response.data.data.userType == "customer" &&
+        navigate("/customer/dashboard");
+      response.data.data.userType == "restaurant" &&
+        navigate("/restaurant/dashboard");
+      response.data.data.userType == "rider" && navigate("/rider/dashboard");
+      
     } catch (error) {
       toast.error(
         error.response.status + " | " + error.response?.data?.message ||

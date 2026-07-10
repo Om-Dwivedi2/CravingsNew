@@ -54,11 +54,11 @@ export const RegisterUser = async (req, res, next) => {
       userType
     });
 
-    await genToken(res, newUser);
+    
 
     res
       .status(201)
-      .json({ message: "User Created Successfully", data: newUser });
+      .json({ message: "User Registered Successfully", data: newUser });
   } catch (error) {
     console.log(error.message);
     next(error);
