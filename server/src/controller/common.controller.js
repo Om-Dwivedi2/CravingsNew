@@ -64,24 +64,39 @@ export const UserUpdateProfile = async (req, res, next) => {
 
 export const UserChangePassword = async (req, res, next) => {
   try {
-    const { passsword, newPassword } = req.body;
+    const { oldPasssword, newPassword } = req.body;
 
-  const verifiedUser = req.user;
-  const verifyPassword = await bcrypt.compare(password, verifiedUser.passsword);
+    if (!oldPasssword || !newPassword) {
+      const error = new Error("All fields Required");
+      error.statusCode = 400;
+      return next(error);
+    }
 
-  if (verifyPassword) {
-    const error = new Error("Given old password is incorrect");
-    error.statusCode = 401;
-    return next(error);
-  }
+    const verifiedUser = req.user;
+    const verifyPassword = await bcrypt.compare(
+      oldPassword,
+      verifiedUser.passsword,
+    );
 
-  verifiedUser.passsword = newPassword;
-  verifiedUser.save();
+    if (verifyPassword) {
+      const error = new Error("Given old password is incorrect");
+      error.statusCode = 401;
+      return next(error);
+    }
 
-  res.status(200).json({ message: "User Password Updated Successfully" });
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    verifiedUser.passsword = hashedPassword;
+    verifiedUser.save();
+
+    res
+      .status(200)
+      .json({
+        message: "User Password Updated Successfully",
+        data: verifiedUser,
+      });
   } catch (error) {
     console.log(error.message);
-    next(error)
+    next(error);
   }
-
 };

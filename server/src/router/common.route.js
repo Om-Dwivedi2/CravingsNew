@@ -1,5 +1,5 @@
 import express from "express";
-import { UserUpdateProfile } from "../controller/common.controller.js";
+import { UserChangePassword, UserUpdateProfile } from "../controller/common.controller.js";
 import { AuthProtect } from "../middleware/AuthProtect.js";
 import multer from "multer";
 
@@ -12,5 +12,7 @@ router.put(
   Upload.single("displayPic"),
   UserUpdateProfile,
 );
+
+router.patch("/change-password", AuthProtect, UserChangePassword);
 
 export default router;
