@@ -26,6 +26,9 @@ const CustomerSetting = () => {
     phone: user.phone,
   });
 
+  
+
+
   const [profilePic, setProfilePic] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(user.photo?.url);
 

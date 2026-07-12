@@ -15,6 +15,16 @@ const CustomerDashboard = () => {
 
   const [active, setActive] = useState("Overview");
 
+  if (!isLogin && user.userType !== "customer") {
+    return (
+      <>
+        <div className="bg-[url('../../assets/restaurantBG.avif')]">
+
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className="flex">

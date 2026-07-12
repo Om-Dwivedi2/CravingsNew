@@ -5,7 +5,8 @@ import {
   IoEyeOutline,
   IoLockClosedOutline,
 } from "react-icons/io5";
-
+import api from "../../../config/api.config";
+import toast from "react-hot-toast";
 
 const ChangePasswordModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -21,24 +22,28 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e)=>{
-
+  const handleSubmit = async (e) => {
     try {
-      
-      if (formData.newPassword ) {
-        
+      if (formData.newPassword != formData.confirmNewPassword) {
+        toast.error("New password and confirm password do not match");
+        return;
       }
 
+      const payload = {
+        oldPassword: formData.oldPassword,
+        newPassword: formData.newPassword,
+      };
+
+      const response = await api.patch("/common/change-password", payload);
+      toast.success(response.data.message);
+      onClose();
     } catch (error) {
       console.log(error.message);
-
+      toast.error(
+        error.response.status + " | " + error.response?.data?.message,
+      );
     }
-
-
-  }
-
-
-
+  };
 
   if (!isOpen) return null;
   return (
@@ -92,7 +97,6 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
                 value={formData.newPassword}
                 type="password"
                 onChange={handleChange}
-
                 placeholder="Enter new password"
                 className="w-full px-3 py-2 bg-white border border-(--color-base-300) rounded focus:outline-none focus:border-(--color-primary) text-gray-900 pr-10"
               />
@@ -111,7 +115,6 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
                 value={formData.confirmNewPassword}
                 type="password"
                 onChange={handleChange}
-
                 placeholder="Confirm new password"
                 className="w-full px-3 py-2 bg-white border border-(--color-base-300) rounded focus:outline-none focus:border-(--color-primary) text-gray-900 pr-10"
               />
@@ -129,7 +132,7 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
             Cancel
           </button>
           <button
-            onClick={onClose}
+            onClick={handleSubmit}
             className="border py-2 px-4 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
           >
             Update Password

@@ -23,6 +23,7 @@ const RestaurantSetting = () => {
     phone: user.phone,
   });
 
+
   const [profilePic, setProfilePic] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(user.photo?.url);
 
@@ -44,7 +45,6 @@ const RestaurantSetting = () => {
       const response = await api.put(`/common/edit-profile`, payload);
 
       setUser(response.data.data);
-      
 
       toast.success(response.data.message);
     } catch (error) {
@@ -62,7 +62,7 @@ const RestaurantSetting = () => {
 
   const handleUploadImg = (e) => {
     const file = e.target.files[0];
- 
+
     setPhotoPreview(URL.createObjectURL(file));
     setProfilePic(file);
   };

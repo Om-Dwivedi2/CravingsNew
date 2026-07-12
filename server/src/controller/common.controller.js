@@ -1,6 +1,7 @@
 import { User } from "../model/User.model.js";
 import jwt from "jsonwebtoken";
 import cloudinary from "../config/cloudinary.config.js";
+import bcrypt from "bcrypt";
 
 export const UserUpdateProfile = async (req, res, next) => {
   try {
@@ -64,9 +65,9 @@ export const UserUpdateProfile = async (req, res, next) => {
 
 export const UserChangePassword = async (req, res, next) => {
   try {
-    const { oldPasssword, newPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
 
-    if (!oldPasssword || !newPassword) {
+    if (!oldPassword || !newPassword) {
       const error = new Error("All fields Required");
       error.statusCode = 400;
       return next(error);
@@ -75,10 +76,10 @@ export const UserChangePassword = async (req, res, next) => {
     const verifiedUser = req.user;
     const verifyPassword = await bcrypt.compare(
       oldPassword,
-      verifiedUser.passsword,
+      verifiedUser.password,
     );
 
-    if (verifyPassword) {
+    if (!verifyPassword) {
       const error = new Error("Given old password is incorrect");
       error.statusCode = 401;
       return next(error);
@@ -86,7 +87,7 @@ export const UserChangePassword = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    verifiedUser.passsword = hashedPassword;
+    verifiedUser.password = hashedPassword;
     verifiedUser.save();
 
     res

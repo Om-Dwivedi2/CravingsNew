@@ -23,7 +23,6 @@ const RestaurantSidebar = ({ active, setActive }) => {
               className={`flex items-center gap-3 text-lg font-se text-(--color-neutral) p-2 w-full rounded-lg text-start ${active == item.name && "bg-(--color-primary-subtle) text-(--color-primary)"}`}
               onClick={() => {
                 setActive(item.name);
-                console.log("hello");
               }}
             >
               <div>{item.icon}</div>

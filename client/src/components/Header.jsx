@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/circleLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "../context/AuthContext";
@@ -8,7 +8,11 @@ import toast from "react-hot-toast";
 const Header = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();
   const navigate = useNavigate();
-  const [toggle, setToggle] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setIsDropdownOpen(false);
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -56,17 +60,19 @@ const Header = () => {
                     />
                   </div>
 
-                  <div 
+                  <div
                     className="flex gap-2 items-center "
                     onClick={() => {
-                      toggle ? setToggle(false) : setToggle(true);
+                      isDropdownOpen
+                        ? setIsDropdownOpen(false)
+                        : setIsDropdownOpen(true);
                     }}
                   >
                     {user.fullName}
                     <FaAngleDown
                       className="transition-transform duration-250"
                       style={
-                        toggle
+                        isDropdownOpen
                           ? { transform: "rotate(180deg)" }
                           : { transform: "rotate(0deg)" }
                       }
@@ -75,7 +81,7 @@ const Header = () => {
                 </section>
 
                 <section
-                  className={`absolute bg-white  rounded top-3/2 right-0 shadow-lg p-4 ${toggle ? "block" : "hidden"}`}
+                  className={`absolute bg-white  rounded top-3/2 right-0 shadow-lg p-4 ${isDropdownOpen ? "block" : "hidden"}`}
                 >
                   <div className="flex items-center justify-between  mb-2">
                     <p className="text-[12px] text-gray-600">signed in as</p>

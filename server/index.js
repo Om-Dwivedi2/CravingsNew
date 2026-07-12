@@ -9,8 +9,6 @@ import morgan from "morgan";
 import publicRouter from "./src/router/public.route.js";
 import cookieParser from "cookie-parser";
 
-
-
 const app = express();
 
 // Middleware
@@ -38,9 +36,9 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 5000;
 
 app.listen(port, async () => {
-  console.log("Server is running at port: ", port);
-  await connectDB();
   try {
+    console.log("Server is running at port: ", port);
+    await connectDB();
     const connection = await cloudinary.api.ping();
     console.log("Cloudinary Connected: ");
     console.log(connection);
