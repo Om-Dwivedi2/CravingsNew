@@ -5,7 +5,7 @@ import {
   IoEyeOutline,
   IoLockClosedOutline,
 } from "react-icons/io5";
-import api from "../../../config/api.config";
+import api from "../../config/api.config";
 import toast from "react-hot-toast";
 
 const ChangePasswordModal = ({ isOpen, onClose }) => {

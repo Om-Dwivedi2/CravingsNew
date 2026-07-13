@@ -9,20 +9,16 @@ import Order from "../../components/customerDashboard/CustomerOrder";
 import Overview from "../../components/customerDashboard/CustomerOverview";
 import Wishlist from "../../components/customerDashboard/CustomerWishList";
 import Settings from "../../components/customerDashboard/CustomerSetting";
+import AccessDeniedModal from "./modals/AccessDeniedModal";
+
 const CustomerDashboard = () => {
   const navigate = useNavigate();
   const { user, setUser, isLogin, setIsLogin } = Auth();
 
   const [active, setActive] = useState("Overview");
 
-  if (!isLogin && user.userType !== "customer") {
-    return (
-      <>
-        <div className="bg-[url('../../assets/restaurantBG.avif')]">
-
-        </div>
-      </>
-    )
+  if (!isLogin || user.userType !== "customer") {
+    return <AccessDeniedModal role={"customer"} />;
   }
 
   return (

@@ -12,7 +12,7 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { FaCamera } from "react-icons/fa";
 import api from "../../config/api.config";
 import toast from "react-hot-toast";
-import ChangePasswordModal from "./commonModals/ChangePasswordModal";
+import ChangePasswordModal from "../commonModals/ChangePasswordModal";
 
 const CustomerSetting = () => {
   const { user, setUser, isLogin, setIsLogin } = Auth();

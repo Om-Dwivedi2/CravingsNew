@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../config/api.config";
 import toast from "react-hot-toast";
 import { Auth } from "../context/AuthContext";
+import ForgetPasswordModal from "../components/commonModals/ForgetPasswordModal";
 
 const Login = () => {
   const navigate = useNavigate();
   const { user, setUser } = Auth();
+  const [isForgetPasswordModalOpen, setIsForgetPasswordModalOpen] =
+    useState(false);
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -45,7 +48,6 @@ const Login = () => {
       response.data.data.userType == "restaurant" &&
         navigate("/restaurant/dashboard");
       response.data.data.userType == "rider" && navigate("/rider/dashboard");
-      
     } catch (error) {
       toast.error(
         error.response.status + " | " + error.response?.data?.message ||
@@ -120,7 +122,12 @@ const Login = () => {
               </label>
             </div>
 
-            <div className="text-(--color-primary) text-[12px]">
+            <div
+              className="text-(--color-primary) text-[12px] hover:underline hover:cursor-pointer"
+              onClick={() => {
+                setIsForgetPasswordModalOpen(true);
+              }}
+            >
               Forget Password?
             </div>
           </div>
@@ -148,6 +155,15 @@ const Login = () => {
           </div>
         </form>
       </div>
+
+      {isForgetPasswordModalOpen && (
+        <ForgetPasswordModal
+          open={isForgetPasswordModalOpen}
+          toClose={() => {
+            setIsForgetPasswordModalOpen(false);
+          }}
+        />
+      )}
     </>
   );
 };
