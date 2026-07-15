@@ -8,6 +8,7 @@ import cors from "cors";
 import morgan from "morgan";
 import publicRouter from "./src/router/public.route.js";
 import cookieParser from "cookie-parser";
+import restaurantRouter from "./src/router/restaurant.route.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/public", publicRouter);
 app.use("/common", commonRouter);
+app.use("/restaurant", restaurantRouter);
 
 // Default Error handler
 
