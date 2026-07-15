@@ -16,6 +16,27 @@ export async function genToken(res, existingUser) {
     });
     console.log("token Succesfully Created: ", token);
   } catch (error) {
-    throw next(error);
+    throw error;
   }
 }
+
+export const genOTPToken = async (user, res) => {
+  try {
+    const payload = { id: user._id };
+
+    const token = await jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "10m",
+    });
+
+    res.cookie("emailToken", token, {
+      maxAge: 1000 * 60 * 10,
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
+
+    console.log(token);
+  } catch (error) {
+    throw error;
+  }
+};

@@ -7,6 +7,8 @@ import {
   IoEyeOutline,
   IoCheckmarkSharp,
 } from "react-icons/io5";
+import api from "../../config/api.config";
+import toast from "react-hot-toast";
 
 const ForgetPasswordModal = ({ open, toClose }) => {
   const [isOtpSend, setIsOtpSend] = useState(false);
@@ -25,22 +27,44 @@ const ForgetPasswordModal = ({ open, toClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setIsLoading(true);
-      !isOtpSend &&
-        {
-          // send OTP
-        }(isOtpSend && !isOtpVerified) &&
-        {
-          // Verify OTP
-        }(isOtpSend && isOtpVerified) &&
-        {
-          // Reset Password
-        };
+      if (!isOtpSend) {
+        const response = await api.post("/auth/send-otp", formData);
+        toast.success(response.data.message);
+        setIsOtpSend(true);
+      }
+      if (isOtpSend && !isOtpVerified) {
+        const res = await api.post("/auth/verify-otp", formData);
+        toast.success(res.data.message);
+        setIsOtpVerified(true);
+      }
+      if (isOtpSend && isOtpVerified) {
+        const res = await api.post("/auth/reset-password", formData);
+        toast.success(res.data.message);
+        handleCloseModal();
+      }
+    } catch (error) {
+      toast.error(
+        error.response.status + " | " + error.response?.data?.message ||
+          "Unknown error occurred during registration. Please try again.",
+      );
+    } finally {
       setIsLoading(false);
-    } catch (error) {}
+    }
+  };
+
+  const handleCloseModal = () => {
+    setFormData({
+      email: "",
+      otp: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    });
+
+    toClose();
   };
 
   if (!open) return null;
@@ -98,12 +122,12 @@ const ForgetPasswordModal = ({ open, toClose }) => {
             {/* Send OTP Button */}
             <button
               type="submit"
-              onClick={() => setIsOtpSend(true)}
-              className="w-full py-3 bg-(--color-primary) text-white font-semibold rounded-lg hover:brightness-95 active:scale-[0.98] transition text-[14px] cursor-pointer text-center"
+              disabled={isLoading}
+              className={`w-full py-3 text-white font-semibold rounded-lg hover:brightness-95 transition text-[14px] cursor-pointer text-center ${isLoading ? "bg-(--color-base-300)" : "bg-(--color-primary)"}`}
             >
-              Send OTP
+              {isLoading ? "Loading..." : "Send OTP"}
             </button>
-
+          
             {/* Divider OR */}
             <div className="w-full flex items-center justify-center my-5 gap-3">
               <div className="h-[1px] bg-gray-200 grow"></div>
@@ -141,7 +165,7 @@ const ForgetPasswordModal = ({ open, toClose }) => {
             <p className="text-[13px] text-gray-500 text-center mb-6">
               Enter the 6-digit code sent to <br />
               <span className="text-(--color-primary) font-medium">
-                example@email.com
+                {formData.email}
               </span>
             </p>
 
@@ -207,7 +231,7 @@ const ForgetPasswordModal = ({ open, toClose }) => {
               </button>
               <button
                 type="submit"
-                onClick={() => setIsOtpVerified(true)}
+                disabled={isLoading}
                 className="w-1/2 py-3 bg-(--color-primary) text-white font-semibold rounded-lg hover:brightness-95 active:scale-[0.98] transition text-[14px] cursor-pointer text-center"
               >
                 Verify OTP
@@ -295,7 +319,7 @@ const ForgetPasswordModal = ({ open, toClose }) => {
               </button>
               <button
                 type="submit"
-                onClick={toClose}
+                disabled={isLoading}
                 className="w-1/2 py-3 bg-(--color-primary) text-white font-semibold rounded-lg hover:brightness-95 active:scale-[0.98] transition text-[14px] cursor-pointer text-center"
               >
                 Reset Password
