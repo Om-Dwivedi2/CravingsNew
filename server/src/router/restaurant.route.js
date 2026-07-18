@@ -1,4 +1,4 @@
-import React from "react";
+import express from "express"
 import { restaurantAuthProtect } from "../middleware/auth.middleware.js";
 import { restaurantUpdateProfile } from "../controller/restaurant.controller.js";
 import multer from "multer";

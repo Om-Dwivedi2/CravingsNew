@@ -32,7 +32,10 @@ APIs in this section start with `/restaurant` and are specific only to the Resta
 | Component | Method | API Endpoint | Request Body | Response Body | Success Message | Error Status & Messages |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **restaurant info** | `GET` | `/restaurant/info` | None | JSON:<br>`{ message, data: { _id, managerId, restaurantName, description, cuisineTypes, restaurantType, servingHours: { openingTime, closingTime }, contactDetails: { email, phone }, coverImage: { url, publicId }, restaurantImage: [{ url, publicId }], isOpen, status, averageRating } }` | `"Restaurant info fetched successfully"` | **404**: `{"message": "Restaurant profile not found"}` <br> **401**: `{"message": "Unauthorized"}` |
-| **restaurant info** | `PUT` | `/restaurant/info` | Multipart Form-Data:<br>- `restaurantName`<br>- `description`<br>- `cuisineTypes` *(array)*<br>- `restaurantType`<br>- `servingHours[openingTime]`<br>- `servingHours[closingTime]`<br>- `contactDetails[email]`<br>- `contactDetails[phone]`<br>- `coverImage` *(file, optional)*<br>- `restaurantImage` *(files, optional)* | JSON:<br>`{ message, data: { _id, managerId, restaurantName, description, cuisineTypes, restaurantType, servingHours: { openingTime, closingTime }, contactDetails: { email, phone }, coverImage: { url, publicId }, restaurantImage: [{ url, publicId }] } }` | `"Restaurant info updated successfully"` | **400**: `{"message": "Missing required Field: <key>"}` <br> **401**: `{"message": "Unauthorized"}` |
+| **restaurant info** | `PUT` | `/restaurant/info` | JSON:<br>`{ restaurantName, description, cuisineTypes: [], restaurantType, servingHours: { openingTime, closingTime }, contactDetails: { email, phone } }` | JSON:<br>`{ message, data: { _id, managerId, restaurantName, description, cuisineTypes, restaurantType, servingHours: { openingTime, closingTime }, contactDetails: { email, phone } } }` | `"Restaurant info updated successfully"` | **400**: `{"message": "Missing required Field: <key>"}` <br> **401**: `{"message": "Unauthorized"}` |
+| **cover image** | `PUT` | `/restaurant/cover-image` | Multipart Form-Data:<br>- `coverImage` *(file)* | JSON:<br>`{ message, data: { coverImage: { url, publicId } } }` | `"Cover image updated successfully"` | **400**: `{"message": "Cover image is required"}` <br> **401**: `{"message": "Unauthorized"}` |
+| **restaurant images** | `POST` | `/restaurant/images` | Multipart Form-Data:<br>- `restaurantImage` *(files)* | JSON:<br>`{ message, data: { restaurantImage: [{ url, publicId }] } }` | `"Restaurant images uploaded successfully"` | **400**: `{"message": "No images uploaded"}` <br> **401**: `{"message": "Unauthorized"}` |
+| **restaurant images** | `DELETE` | `/restaurant/images` | Query Params:<br>- `publicId` *(string)* | JSON:<br>`{ message }` | `"Restaurant image deleted successfully"` | **400**: `{"message": "Public ID is required"}` <br> **401**: `{"message": "Unauthorized"}` |
 | **address** | `GET` | `/restaurant/address` | None | JSON:<br>`{ message, data: { address, city, state, pinCode, country, geoLocation: { lat, lon } } }` | `"Restaurant address fetched successfully"` | **404**: `{"message": "Restaurant address not found"}` <br> **401**: `{"message": "Unauthorized"}` |
 | **address** | `PUT` | `/restaurant/address` | JSON:<br>`{ address, city, state, pinCode, country, geoLocation: { lat, lon } }` | JSON:<br>`{ message, data: { _id, address, city, state, pinCode, country, geoLocation: { lat, lon } } }` | `"Restaurant address updated successfully"` | **400**: `{"message": "Missing required Field: <key>"}` <br> **401**: `{"message": "Unauthorized"}` |
 | **bank and document** | `GET` | `/restaurant/bank-documents` | None | JSON:<br>`{ message, data: { financialDetails: { bankName, accountNumber, ifscCode }, documents: { legalName, companyType, gstCertificate, fssaiCertificate, panCard } } }` | `"Bank and documents fetched successfully"` | **404**: `{"message": "Documents not found"}` <br> **401**: `{"message": "Unauthorized"}` |
@@ -253,18 +256,24 @@ APIs in this section start with `/restaurant` and are specific only to the Resta
 #### 1.2 Update Restaurant Info
 * **Endpoint:** `/restaurant/info`
 * **Method:** `PUT`
-* **Headers:** `Content-Type: multipart/form-data` (Requires authentication)
+* **Headers:** `Content-Type: application/json` (Requires authentication)
 * **Request Body:**
-  * `restaurantName` (string): "Gourmet Garden"
-  * `description` (string): "Premium bistro offering signature farm-to-table plates."
-  * `restaurantType` (string): `"both"`
-  * `cuisineTypes` (array): `["Italian", "Continental"]`
-  * `servingHours[openingTime]` (string): "09:00 AM"
-  * `servingHours[closingTime]` (string): "11:00 PM"
-  * `contactDetails[email]` (string): "orders@gourmetgarden.com"
-  * `contactDetails[phone]` (string): "9876543219"
-  * `coverImage` (file, optional): Uploaded cover photo
-  * `restaurantImage` (files, optional): Multi-file uploads for restaurant interior/gallery
+  ```json
+  {
+    "restaurantName": "Gourmet Garden",
+    "description": "Premium bistro offering signature farm-to-table plates.",
+    "restaurantType": "both",
+    "cuisineTypes": ["Italian", "Continental"],
+    "servingHours": {
+      "openingTime": "09:00 AM",
+      "closingTime": "11:00 PM"
+    },
+    "contactDetails": {
+      "email": "orders@gourmetgarden.com",
+      "phone": "9876543219"
+    }
+  }
+  ```
 * **Success Response (200 OK):**
   ```json
   {
@@ -274,13 +283,93 @@ APIs in this section start with `/restaurant` and are specific only to the Resta
       "managerId": "64b0f19c6d3d9d479101abcd",
       "restaurantName": "Gourmet Garden",
       "description": "Premium bistro offering signature farm-to-table plates.",
-      "restaurantType": "both"
+      "restaurantType": "both",
+      "cuisineTypes": ["Italian", "Continental"],
+      "servingHours": {
+        "openingTime": "09:00 AM",
+        "closingTime": "11:00 PM"
+      },
+      "contactDetails": {
+        "email": "orders@gourmetgarden.com",
+        "phone": "9876543219"
+      }
     }
   }
   ```
 * **Error Response (400 Bad Request):**
   ```json
   { "message": "Missing required Field: restaurantName" }
+  ```
+
+#### 1.3 Update Cover Image
+* **Endpoint:** `/restaurant/cover-image`
+* **Method:** `PUT`
+* **Headers:** `Content-Type: multipart/form-data` (Requires authentication)
+* **Request Body:**
+  * `coverImage` (file): Cover image file to upload.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "message": "Cover image updated successfully",
+    "data": {
+      "_id": "64b0f7896d3d9d479101ffef",
+      "coverImage": {
+        "url": "https://res.cloudinary.com/demo/image/upload/cover.jpg",
+        "publicId": "restaurant/cover_id"
+      }
+    }
+  }
+  ```
+* **Error Response (400 Bad Request):**
+  ```json
+  { "message": "Cover image is required" }
+  ```
+
+#### 1.4 Add Restaurant Gallery Images
+* **Endpoint:** `/restaurant/images`
+* **Method:** `POST`
+* **Headers:** `Content-Type: multipart/form-data` (Requires authentication)
+* **Request Body:**
+  * `restaurantImage` (files): Multiple restaurant image files to upload and append.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "message": "Restaurant images uploaded successfully",
+    "data": {
+      "_id": "64b0f7896d3d9d479101ffef",
+      "restaurantImage": [
+        {
+          "url": "https://res.cloudinary.com/demo/image/upload/dining.jpg",
+          "publicId": "restaurant/dining_id"
+        },
+        {
+          "url": "https://res.cloudinary.com/demo/image/upload/kitchen.jpg",
+          "publicId": "restaurant/kitchen_id"
+        }
+      ]
+    }
+  }
+  ```
+* **Error Response (400 Bad Request):**
+  ```json
+  { "message": "No images uploaded" }
+  ```
+
+#### 1.5 Delete Restaurant Gallery Image
+* **Endpoint:** `/restaurant/images`
+* **Method:** `DELETE`
+* **Headers:** `Content-Type: application/json` (Requires authentication)
+* **Query Parameters:**
+  * `publicId` (string, required): The public ID of the Cloudinary image to delete.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "message": "Restaurant image deleted successfully"
+  }
+  ```
+* **Error Response (400 Bad Request):**
+  ```json
+  { "message": "Public ID is required" }
   ```
 
 ---
