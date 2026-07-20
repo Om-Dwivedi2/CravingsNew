@@ -213,7 +213,7 @@ const RestaurantInformation = () => {
         </div>
 
         <div className="bg-white rounded-lg p-5 shadow space-y-2 mt-5">
-          <div className="flex justify-between items-center border-b border-(--color-gray) pb-3">
+          <section className="flex justify-between items-center border-b border-(--color-gray) pb-3">
             <h2 className="text-xl text-(--color-primary) font-semibold">
               Restaurant Information
             </h2>
@@ -241,7 +241,7 @@ const RestaurantInformation = () => {
               ) : (
                 <>
                   <button
-                    className="border flex gap-2 items-center py-1.5 px-3 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"
+                    className="border flex gap-2 items-center py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
                     onClick={() => {
                       setIsEdit(true);
                     }}
@@ -252,7 +252,191 @@ const RestaurantInformation = () => {
                 </>
               )}
             </div>
-          </div>
+          </section>
+
+          <section className="grid grid-cols-1 md:grid-cols-6 gap-5 pt-4">
+            <div className="flex flex-col gap-1 w-full md:col-span-2">
+              <label htmlFor="restaurantName" className="font-semibold text-sm">
+                Restaurant Name
+              </label>
+              <input
+                type="text"
+                name="restaurantName"
+                id="restaurantName"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-2">
+              <label htmlFor="restaurantType" className="font-semibold text-sm">
+                Restaurant Type
+              </label>
+              <select
+                name="restaurantType"
+                id="restaurantType"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+                defaultValue=""
+              >
+                <option value="" disabled>Select type</option>
+                <option value="veg">veg</option>
+                <option value="nonVeg">non-Veg</option>
+                <option value="vegan">vegan</option>
+                <option value="jain">jain</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-2">
+              <label htmlFor="cuisineTypes" className="font-semibold text-sm">
+                Cuisine Types <span className="text-gray-400 font-normal">(comma-separated)</span>
+              </label>
+              <input
+                type="text"
+                name="cuisineTypes"
+                id="cuisineTypes"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+                placeholder="e.g. Indian, Chinese, Italian"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-2">
+              <label htmlFor="contactEmail" className="font-semibold text-sm">
+                Contact Email
+              </label>
+              <input
+                type="email"
+                name="contactEmail"
+                id="contactEmail"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-2">
+              <label htmlFor="contactPhone" className="font-semibold text-sm">
+                Contact Phone
+              </label>
+              <input
+                type="tel"
+                name="contactPhone"
+                id="contactPhone"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-1">
+              <label htmlFor="openingTime" className="font-semibold text-sm">
+                Opening Time
+              </label>
+              <input
+                type="time"
+                name="openingTime"
+                id="openingTime"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-1">
+              <label htmlFor="closingTime" className="font-semibold text-sm">
+                Closing Time
+              </label>
+              <input
+                type="time"
+                name="closingTime"
+                id="closingTime"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full md:col-span-6">
+              <label htmlFor="description" className="font-semibold text-sm">
+                Description
+              </label>
+              <textarea
+                name="description"
+                id="description"
+                rows="3"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+          </section>
+        </div>
+
+        <div className="bg-white rounded-lg p-5 shadow space-y-2 mt-5">
+          <section className="flex justify-between items-center border-b border-(--color-gray) pb-3">
+            <h2 className="text-xl text-(--color-primary) font-semibold">
+              Leagal Information
+            </h2>
+
+            <div className="flex gap-3">
+              {isEdit ? (
+                <>
+                  <button
+                    className="border py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
+                    onClick={async () => {
+                      handleSaveChanges();
+                    }}
+                  >
+                    {isProcessing ? "Saving..." : "Save Changes"}
+                  </button>
+                  <button
+                    className="border py-1.5 px-3 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"
+                    onClick={() => {
+                      setIsEdit(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="border flex gap-2 items-center py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
+                    onClick={() => {
+                      setIsEdit(true);
+                    }}
+                  >
+                    <MdOutlineModeEdit className="text-lg" />
+                    Edit
+                  </button>
+                </>
+              )}
+            </div>
+          </section>
+
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="legalName" className="font-semibold text-sm">
+                Legal Name
+              </label>
+              <input
+                type="text"
+                name="legalName"
+                id="legalName"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="companyType" className="font-semibold text-sm">
+                Company Type
+              </label>
+              <input
+                type="text"
+                name="companyType"
+                id="companyType"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
+                disabled={!isEdit}
+              />
+            </div>
+          </section>
         </div>
       </div>
 
