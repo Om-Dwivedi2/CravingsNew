@@ -2,6 +2,10 @@ import React from "react";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 
 const RestaurantPhotos = () => {
+
+
+
+  
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-5">

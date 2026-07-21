@@ -22,9 +22,9 @@ const RestaurantDashboard = () => {
 
   return (
     <>
-      <div className="flex">
-        <Sidebar active={active} setActive={setActive} />
-        <div className="bg-(--color-background) w-full p-10 text-black">
+      <div className="flex relative">
+        <Sidebar active={active} setActive={setActive}/>
+        <div className="bg-(--color-background) w-full h-full p-10 text-black">
           {active == "Overview" && <Overview />}
           {active == "Order" && <Order />}
           {active == "Wishlist" && <Wishlist />}

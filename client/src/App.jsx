@@ -33,7 +33,7 @@ const App = () => {
           />
           <Route path="/rider/dashboard" element={<RiderDashboard />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </>
   );

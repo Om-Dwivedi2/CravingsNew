@@ -16,7 +16,7 @@ const RestaurantSidebar = ({ active, setActive }) => {
 
   return (
     <>
-      <nav className="bg-white w-[20vw] p-5">
+      <nav className=" bg-white w-[20vw] p-5">
         <section className="flex flex-col text-black">
           {MenuItems.map((item, inx) => (
             <button

@@ -55,6 +55,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="address"
                 id="address"
+                placeholder="Enter street address"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isAddressEdit || "cursor-not-allowed"}`}
                 disabled={!isAddressEdit}
               />
@@ -68,6 +69,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="city"
                 id="city"
+                placeholder="Enter city"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isAddressEdit || "cursor-not-allowed"}`}
                 disabled={!isAddressEdit}
               />
@@ -81,6 +83,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="state"
                 id="state"
+                placeholder="Enter state"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isAddressEdit || "cursor-not-allowed"}`}
                 disabled={!isAddressEdit}
               />
@@ -94,6 +97,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="pinCode"
                 id="pinCode"
+                placeholder="Enter PIN / postal code"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isAddressEdit || "cursor-not-allowed"}`}
                 disabled={!isAddressEdit}
               />
@@ -107,6 +111,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="country"
                 id="country"
+                placeholder="Enter country"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isAddressEdit || "cursor-not-allowed"}`}
                 disabled={!isAddressEdit}
               />
@@ -188,6 +193,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="bankName"
                 id="bankName"
+                placeholder="Enter bank name"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isBankingEdit || "cursor-not-allowed"}`}
                 disabled={!isBankingEdit}
               />
@@ -201,6 +207,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="accountNumber"
                 id="accountNumber"
+                placeholder="Enter bank account number"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isBankingEdit || "cursor-not-allowed"}`}
                 disabled={!isBankingEdit}
               />
@@ -214,6 +221,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="ifscCode"
                 id="ifscCode"
+                placeholder="Enter IFSC code"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isBankingEdit || "cursor-not-allowed"}`}
                 disabled={!isBankingEdit}
               />
@@ -227,6 +235,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="panCardNumber"
                 id="panCardNumber"
+                placeholder="Enter PAN card number"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isBankingEdit || "cursor-not-allowed"}`}
                 disabled={!isBankingEdit}
               />
@@ -240,6 +249,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="gstNumber"
                 id="gstNumber"
+                placeholder="Enter GST number"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isBankingEdit || "cursor-not-allowed"}`}
                 disabled={!isBankingEdit}
               />
@@ -253,6 +263,7 @@ const RestaurantCoreDetails = () => {
                 type="text"
                 name="fssaiCode"
                 id="fssaiCode"
+                placeholder="Enter FSSAI code"
                 className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isBankingEdit || "cursor-not-allowed"}`}
                 disabled={!isBankingEdit}
               />

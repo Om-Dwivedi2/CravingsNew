@@ -19,12 +19,18 @@ const RestaurantInformation = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
+
+
   const [isEdit, setIsEdit] = useState(false);
+  const [isRestaurantEdit, setIsRestaurantEdit] = useState(false);
+  const [isLegalEdit, setIsLegalEdit] = useState(false);
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "",
     email: user?.email || "",
     phone: user?.phone || "",
   });
+
+
 
   const [profilePic, setProfilePic] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(user?.photo?.url);
@@ -68,6 +74,25 @@ const RestaurantInformation = () => {
     setPhotoPreview(URL.createObjectURL(file));
     setProfilePic(file);
   };
+
+
+  
+ const [restaurantData, setRestaurantData] = useState();
+  const [restaurantFormData, setRestaurantFormData] = useState({
+    restaurantName: restaurantData?.restaurantName || "",
+    description: restaurantData?.description || "",
+    restaurantType: restaurantData?.restaurantType || "",
+    restaurantCuisine: restaurantData?.cuisineTypes?.join(", ") || "",
+    contactEmail: restaurantData?.contactDetails?.email || "",
+    contactPhone: restaurantData?.contactDetails?.phone || "",
+    openingTime: restaurantData?.servingHours?.openingTime || "",
+    closingTime: restaurantData?.servingHours?.closingTime || "",
+  });
+
+
+  
+
+
 
   return (
     <>
@@ -165,6 +190,7 @@ const RestaurantInformation = () => {
                     type="text"
                     name="fullName"
                     id="fullName"
+                    placeholder="Enter your full name"
                     className={`focus:outline-none w-full bg-white ${isEdit || "cursor-not-allowed"} `}
                     disabled={!isEdit}
                     value={formData.fullName}
@@ -183,6 +209,7 @@ const RestaurantInformation = () => {
                     type="tel"
                     name="phone"
                     id="phone"
+                    placeholder="Enter your phone number"
                     className={`focus:outline-none w-full bg-white ${isEdit || "cursor-not-allowed"} `}
                     disabled={!isEdit}
                     value={formData.phone}
@@ -201,6 +228,7 @@ const RestaurantInformation = () => {
                     type="email"
                     name="email"
                     id="email"
+                    placeholder="Enter your email address"
                     className="focus:outline-none w-full bg-white cursor-not-allowed"
                     value={formData.email}
                     onChange={handleChange}
@@ -219,20 +247,20 @@ const RestaurantInformation = () => {
             </h2>
 
             <div className="flex gap-3">
-              {isEdit ? (
+              {isRestaurantEdit ? (
                 <>
                   <button
                     className="border py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
-                    onClick={async () => {
-                      handleSaveChanges();
+                    onClick={() => {
+                      setIsRestaurantEdit(false);
                     }}
                   >
-                    {isProcessing ? "Saving..." : "Save Changes"}
+                    Save Changes
                   </button>
                   <button
                     className="border py-1.5 px-3 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"
                     onClick={() => {
-                      setIsEdit(false);
+                      setIsRestaurantEdit(false);
                     }}
                   >
                     Cancel
@@ -243,7 +271,7 @@ const RestaurantInformation = () => {
                   <button
                     className="border flex gap-2 items-center py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
                     onClick={() => {
-                      setIsEdit(true);
+                      setIsRestaurantEdit(true);
                     }}
                   >
                     <MdOutlineModeEdit className="text-lg" />
@@ -263,8 +291,9 @@ const RestaurantInformation = () => {
                 type="text"
                 name="restaurantName"
                 id="restaurantName"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                placeholder="Enter restaurant name"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
               />
             </div>
 
@@ -275,8 +304,8 @@ const RestaurantInformation = () => {
               <select
                 name="restaurantType"
                 id="restaurantType"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
                 defaultValue=""
               >
                 <option value="" disabled>Select type</option>
@@ -295,8 +324,8 @@ const RestaurantInformation = () => {
                 type="text"
                 name="cuisineTypes"
                 id="cuisineTypes"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
                 placeholder="e.g. Indian, Chinese, Italian"
               />
             </div>
@@ -309,8 +338,9 @@ const RestaurantInformation = () => {
                 type="email"
                 name="contactEmail"
                 id="contactEmail"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                placeholder="Enter contact email"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
               />
             </div>
 
@@ -322,8 +352,9 @@ const RestaurantInformation = () => {
                 type="tel"
                 name="contactPhone"
                 id="contactPhone"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                placeholder="Enter contact phone number"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
               />
             </div>
 
@@ -335,8 +366,8 @@ const RestaurantInformation = () => {
                 type="time"
                 name="openingTime"
                 id="openingTime"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
               />
             </div>
 
@@ -348,8 +379,8 @@ const RestaurantInformation = () => {
                 type="time"
                 name="closingTime"
                 id="closingTime"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
               />
             </div>
 
@@ -361,8 +392,9 @@ const RestaurantInformation = () => {
                 name="description"
                 id="description"
                 rows="3"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                placeholder="Enter restaurant description..."
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isRestaurantEdit || "cursor-not-allowed"}`}
+                disabled={!isRestaurantEdit}
               />
             </div>
           </section>
@@ -371,24 +403,24 @@ const RestaurantInformation = () => {
         <div className="bg-white rounded-lg p-5 shadow space-y-2 mt-5">
           <section className="flex justify-between items-center border-b border-(--color-gray) pb-3">
             <h2 className="text-xl text-(--color-primary) font-semibold">
-              Leagal Information
+              Legal Information
             </h2>
 
             <div className="flex gap-3">
-              {isEdit ? (
+              {isLegalEdit ? (
                 <>
                   <button
                     className="border py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
-                    onClick={async () => {
-                      handleSaveChanges();
+                    onClick={() => {
+                      setIsLegalEdit(false);
                     }}
                   >
-                    {isProcessing ? "Saving..." : "Save Changes"}
+                    Save Changes
                   </button>
                   <button
                     className="border py-1.5 px-3 border-(--color-primary) rounded-lg text-(--color-primary) font-medium active:scale-95"
                     onClick={() => {
-                      setIsEdit(false);
+                      setIsLegalEdit(false);
                     }}
                   >
                     Cancel
@@ -399,7 +431,7 @@ const RestaurantInformation = () => {
                   <button
                     className="border flex gap-2 items-center py-1.5 px-3 border-(--color-primary) bg-(--color-primary) rounded-lg text-white font-medium active:scale-95"
                     onClick={() => {
-                      setIsEdit(true);
+                      setIsLegalEdit(true);
                     }}
                   >
                     <MdOutlineModeEdit className="text-lg" />
@@ -419,8 +451,9 @@ const RestaurantInformation = () => {
                 type="text"
                 name="legalName"
                 id="legalName"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                placeholder="Enter legal company name"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isLegalEdit || "cursor-not-allowed"}`}
+                disabled={!isLegalEdit}
               />
             </div>
 
@@ -432,8 +465,9 @@ const RestaurantInformation = () => {
                 type="text"
                 name="companyType"
                 id="companyType"
-                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isEdit || "cursor-not-allowed"}`}
-                disabled={!isEdit}
+                placeholder="Enter company type (e.g. Private Limited, Partnership)"
+                className={`border border-gray-300 rounded-md py-1.5 px-4 focus:outline-none focus:border-(--color-primary) w-full bg-white ${isLegalEdit || "cursor-not-allowed"}`}
+                disabled={!isLegalEdit}
               />
             </div>
           </section>
