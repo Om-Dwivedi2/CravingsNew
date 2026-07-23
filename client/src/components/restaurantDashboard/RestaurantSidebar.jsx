@@ -5,11 +5,13 @@ import { LiaQuestionCircleSolid } from "react-icons/lia";
 import { LuLogOut } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 import { LiaHomeSolid } from "react-icons/lia";
+import {LiaShoppingCartSolid} from "react-icons/lia";
 
 const RestaurantSidebar = ({ active, setActive }) => {
   const MenuItems = [
     { name: "Overview", icon: <LiaHomeSolid /> },
     { name: "Order", icon: <LiaShoppingBagSolid /> },
+    { name: "Menu", icon: <LiaShoppingBagSolid /> },
     { name: "Wishlist", icon: <LiaQuestionCircleSolid /> },
     { name: "Settings", icon: <IoMdSettings /> },
   ];

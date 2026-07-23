@@ -9,6 +9,7 @@ import Order from "../../components/restaurantDashboard/RestaurantOrder";
 import Overview from "../../components/restaurantDashboard/RestaurantOverview";
 import Wishlist from "../../components/restaurantDashboard/RestaurantWishList";
 import Settings from "../../components/restaurantDashboard/RestaurantSetting";
+import Menu from "../../components/restaurantDashboard/RestaurantMenu";
 import AccessDeniedModal from "./modals/AccessDeniedModal";
 const RestaurantDashboard = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const RestaurantDashboard = () => {
         <div className="bg-(--color-background) w-full h-full p-10 text-black">
           {active == "Overview" && <Overview />}
           {active == "Order" && <Order />}
+           {active == "Menu" && <Menu />}
           {active == "Wishlist" && <Wishlist />}
           {active == "Settings" && <Settings />}
         </div>

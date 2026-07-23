@@ -9,6 +9,7 @@ import Order from "../../components/customerDashboard/CustomerOrder";
 import Overview from "../../components/customerDashboard/CustomerOverview";
 import Wishlist from "../../components/customerDashboard/CustomerWishList";
 import Settings from "../../components/customerDashboard/CustomerSetting";
+
 import AccessDeniedModal from "./modals/AccessDeniedModal";
 
 const CustomerDashboard = () => {
@@ -28,6 +29,7 @@ const CustomerDashboard = () => {
         <div className="bg-(--color-background) w-full p-10 text-black">
           {active == "Overview" && <Overview />}
           {active == "Order" && <Order />}
+         
           {active == "Wishlist" && <Wishlist />}
           {active == "Settings" && <Settings />}
         </div>
